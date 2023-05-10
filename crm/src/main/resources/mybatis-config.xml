@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+<!--        打印日志-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+    <typeAliases>
+<!--        起别名-->
+        <package name="com.bjpowernode.crm.model"/>
+    </typeAliases>
+    <mappers>
+<!--        指定mapper文件的位置生成动态代理类-->
+        <package name="com.bjpowernode.crm.mapper"/>
+    </mappers>
+</configuration>
