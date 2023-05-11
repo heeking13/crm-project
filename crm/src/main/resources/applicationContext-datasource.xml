@@ -15,7 +15,7 @@
         <property name="password" value="111222hq"/>
         <property name="url" value="jdbc:mysql://127.0.0.1:3306/crm2008?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8"/>
     </bean>
-    <!-- 配置SqlSessionFactory -->
+    <!-- 配置SqlSessionFactory 数据库实例相当于数据库 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!-- 必须注入属性dataSource -->
         <property name="dataSource" ref="dataSource"/>
