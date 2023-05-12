@@ -12,7 +12,7 @@
 </head>
 <body>
 <script type="text/javascript">
-    document.location.href = "settings/qx/user/login.html";
+    document.location.href = "settings/qx/user/toLogin.do";
 </script>
 </body>
 </html>
