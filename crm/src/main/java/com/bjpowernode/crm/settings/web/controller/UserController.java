@@ -48,11 +48,13 @@ public class UserController {
                 //登陆失败，状态被锁定
                 ro.setCode("0");
                 ro.setMessage("账号被锁定");
-            } else if (!user.getAllowIps().contains(request.getRemoteAddr())) {
-                //登陆失败，ip被锁定
-                ro.setCode("0");
-                ro.setMessage("账号ip被锁定");
-            } else {
+            }
+//            else if (!user.getAllowIps().contains(request.getRemoteAddr())) {
+//                //登陆失败，ip被锁定
+//                ro.setCode("0");
+//                ro.setMessage("账号ip被锁定");
+//            }
+            else {
                 ro.setCode("1");
             }
         }
