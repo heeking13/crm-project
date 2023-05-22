@@ -9,3 +9,5 @@
 # Zeppelin ignored files
 /ZeppelinRemoteNotebooks/
 crm-project.iml
+
+/.idea/
