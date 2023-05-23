@@ -12,6 +12,12 @@
     <script type="text/javascript">
         // 入口函数
         $(function () {
+            $(window).keydown(function (e){
+                if(e.keyCode == 13){
+                    $("#loginBtn").click();
+                }
+            })
+
             $("#loginBtn").click(function (){
                 let loginAct = $.trim($("#loginAct").val());
                 let loginPwd = $.trim($("#loginPwd").val());
