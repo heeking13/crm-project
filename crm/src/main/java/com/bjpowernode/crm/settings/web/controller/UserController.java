@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,7 +30,7 @@ public class UserController {
 
     @RequestMapping("/settings/qx/user/login.do")
     @ResponseBody
-    public Object login(String loginAct, String loginPwd, String isRemPwd, HttpServletRequest request) {
+    public Object login(String loginAct, String loginPwd, String isRemPwd, HttpServletRequest request, HttpSession session) {
         Map<String, Object> map = new HashMap<>();
         map.put("loginAct", loginAct);
         map.put("loginPwd", loginPwd);
@@ -56,6 +57,7 @@ public class UserController {
                 System.out.println(request.getRemoteAddr());
             } else {
                 ro.setCode(Contants.RETURN_RETURN_CODE_SUCCESS);
+                session.setAttribute(Contants.SESSION_USER, user);
             }
         }
         return ro;

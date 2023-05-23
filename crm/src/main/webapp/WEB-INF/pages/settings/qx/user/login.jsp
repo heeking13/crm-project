@@ -4,7 +4,7 @@
 %>
 <html>
 <head>
-    <base href="<%= basePath  %>>">
+    <base href="<%= basePath  %>">
     <meta charset="UTF-8">
     <link href="jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
     <script type="text/javascript" src="jquery/jquery-1.11.1-min.js"></script>
@@ -16,14 +16,6 @@
                 let loginAct = $.trim($("#loginAct").val());
                 let loginPwd = $.trim($("#loginPwd").val());
                 let isRemPwd = $("#isRemPwd").prop("checked");
-                if(loginAct==""){
-                    alert("用户名不能为空！");
-                    return;
-                }
-                if(loginPwd==""){
-                    alert("密码不能为空！");
-                    return;
-                }
                 $.ajax({
                     url:'settings/qx/user/login.do',
                     data:{
@@ -39,8 +31,27 @@
                         } else {
                              $("#msg").html(data.message);
                         }
+                    },
+                    beforeSend: function (){
+                        if(loginAct==""){
+                            alert("用户名不能为空！");
+                            return false;
+                        }
+                        if(loginPwd==""){
+                            alert("密码不能为空！");
+                            return false;
+                        }
+                        $("#msg").html("正在验证中..........");
+                        return true;
                     }
                 })
+            })
+
+            $("#loginAct").focus(function (){
+                $("#msg").html("");
+            })
+            $("#loginPwd").focus(function (){
+                $("#msg").html("");
             })
         })
     </script>
