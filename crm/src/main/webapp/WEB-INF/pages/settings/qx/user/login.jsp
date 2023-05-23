@@ -72,7 +72,7 @@
                         <input type="checkbox" id="isRemPwd"> 十天内免登录
                     </label>
                     &nbsp;&nbsp;
-                    <span id="msg"></span>
+                    <span id="msg" style="color: red"></span>
                 </div>
                 <button type="button" id="loginBtn" class="btn btn-primary btn-lg btn-block"
                         style="width: 350px; position: relative;top: 45px;">登录

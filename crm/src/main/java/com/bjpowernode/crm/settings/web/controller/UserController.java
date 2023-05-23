@@ -1,6 +1,8 @@
 package com.bjpowernode.crm.settings.web.controller;
 
+import com.bjpowernode.crm.commons.contants.Contants;
 import com.bjpowernode.crm.commons.domain.ReturnObject;
+import com.bjpowernode.crm.commons.utils.DateUtils;
 import com.bjpowernode.crm.settings.domain.User;
 import com.bjpowernode.crm.settings.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -34,29 +36,26 @@ public class UserController {
         User user = userService.queryUserByLoginActAndPwd(map);
         ReturnObject ro = new ReturnObject();
         if (user == null) {
-            ro.setCode("0");
+            ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
             ro.setMessage("用户名或密码不正确");
         } else {
             //进一步查询账号是否合法
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String nowStr = sdf.format(new Date());
+            String nowStr = DateUtils.formatDateTime(new Date());
             if (nowStr.compareTo(user.getExpireTime()) > 0) {
                 //登陆失败，账号过期
-                ro.setCode("0");
+                ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
                 ro.setMessage("账号已经过期");
             } else if ("0".equals(user.getLockState())) {
                 //登陆失败，状态被锁定
-                ro.setCode("0");
+                ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
                 ro.setMessage("账号被锁定");
-            }
-            else if (!user.getAllowIps().contains(request.getRemoteAddr())) {
+            } else if (!user.getAllowIps().contains(request.getRemoteAddr())) {
                 //登陆失败，ip被锁定
-                ro.setCode("0");
+                ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
                 ro.setMessage("账号ip被锁定");
                 System.out.println(request.getRemoteAddr());
-            }
-            else {
-                ro.setCode("1");
+            } else {
+                ro.setCode(Contants.RETURN_RETURN_CODE_SUCCESS);
             }
         }
         return ro;
