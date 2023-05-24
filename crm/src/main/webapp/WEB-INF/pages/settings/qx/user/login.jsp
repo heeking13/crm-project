@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
 %>
@@ -12,38 +13,38 @@
     <script type="text/javascript">
         // 入口函数
         $(function () {
-            $(window).keydown(function (e){
-                if(e.keyCode == 13){
+            $(window).keydown(function (e) {
+                if (e.keyCode == 13) {
                     $("#loginBtn").click();
                 }
             })
 
-            $("#loginBtn").click(function (){
+            $("#loginBtn").click(function () {
                 let loginAct = $.trim($("#loginAct").val());
                 let loginPwd = $.trim($("#loginPwd").val());
                 let isRemPwd = $("#isRemPwd").prop("checked");
                 $.ajax({
-                    url:'settings/qx/user/login.do',
-                    data:{
-                        loginAct:loginAct,
-                        loginPwd:loginPwd,
-                        isRemPwd:isRemPwd
+                    url: 'settings/qx/user/login.do',
+                    data: {
+                        loginAct: loginAct,
+                        loginPwd: loginPwd,
+                        isRemPwd: isRemPwd
                     },
-                    type:'post',
+                    type: 'post',
                     dataType: 'json',
-                    success:function (data){
-                        if(data.code == "1"){
+                    success: function (data) {
+                        if (data.code == "1") {
                             document.location.href = "workbench/index.do";
                         } else {
-                             $("#msg").html(data.message);
+                            $("#msg").html(data.message);
                         }
                     },
-                    beforeSend: function (){
-                        if(loginAct==""){
+                    beforeSend: function () {
+                        if (loginAct == "") {
                             alert("用户名不能为空！");
                             return false;
                         }
-                        if(loginPwd==""){
+                        if (loginPwd == "") {
                             alert("密码不能为空！");
                             return false;
                         }
@@ -53,10 +54,10 @@
                 })
             })
 
-            $("#loginAct").focus(function (){
+            $("#loginAct").focus(function () {
                 $("#msg").html("");
             })
-            $("#loginPwd").focus(function (){
+            $("#loginPwd").focus(function () {
                 $("#msg").html("");
             })
         })
@@ -79,14 +80,22 @@
         <form action="workbench/index.html" class="form-horizontal" role="form">
             <div class="form-group form-group-lg">
                 <div style="width: 350px;">
-                    <input class="form-control" type="text" id="loginAct" placeholder="用户名">
+                    <input class="form-control" type="text" id="loginAct" value="${cookie.loginAct.value}"
+                           placeholder="用户名">
                 </div>
                 <div style="width: 350px; position: relative;top: 20px;">
-                    <input class="form-control" type="password" id="loginPwd" placeholder="密码">
+                    <input class="form-control" type="password" id="loginPwd" value="${cookie.loginPwd.value}"
+                           placeholder="密码">
                 </div>
                 <div class="checkbox" style="position: relative;top: 30px; left: 10px;">
                     <label>
-                        <input type="checkbox" id="isRemPwd"> 十天内免登录
+                        <c:if test="${not empty cookie.loginAct and not empty cookie.loginPwd}">
+                            <input type="checkbox" id="isRemPwd" checked>
+                        </c:if>
+                        <c:if test="${empty cookie.loginAct or empty cookie.loginPwd}">
+                            <input type="checkbox" id="isRemPwd">
+                        </c:if>
+                        十天内记住密码
                     </label>
                     &nbsp;&nbsp;
                     <span id="msg" style="color: red"></span>
