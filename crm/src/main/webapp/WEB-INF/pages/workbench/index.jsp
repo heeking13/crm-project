@@ -38,15 +38,15 @@
 
             window.open("main/index.html", "workareaFrame");
 
-            $("#logoutBtn").click(function (){
-                window.location.href='settings/qx/user/logout.do';
+            $("#logoutBtn").click(function () {
+                window.location.href = 'settings/qx/user/logout.do';
             });
 
         });
 
 
     </script>
-
+    <title>CRM</title>
 </head>
 <body>
 
@@ -150,9 +150,11 @@
     <div style="position: absolute; top: 15px; right: 15px;">
         <ul>
             <li class="dropdown user-dropdown">
-                <a href="javascript:void(0)" style="text-decoration: none; color: white;margin-left: 100px" class="dropdown-toggle"
+                <a href="javascript:void(0)" style="text-decoration: none; color: white;margin-left: 100px"
+                   class="dropdown-toggle"
                    data-toggle="dropdown">
-                    <span class="glyphicon glyphicon-user"></span> ${sessionScope.sessionUser.name} <span class="caret"></span>
+                    <span class="glyphicon glyphicon-user"></span> ${sessionScope.sessionUser.name} <span
+                        class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
                     <li><a href="settings/index.html"><span class="glyphicon glyphicon-wrench"></span> 系统设置</a></li>

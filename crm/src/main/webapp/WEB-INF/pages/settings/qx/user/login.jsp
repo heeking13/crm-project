@@ -54,10 +54,7 @@
                 })
             })
 
-            $("#loginAct").focus(function () {
-                $("#msg").html("");
-            })
-            $("#loginPwd").focus(function () {
+            $("#loginAct, #loginPwd").focus(function () {
                 $("#msg").html("");
             })
         })

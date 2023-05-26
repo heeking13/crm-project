@@ -42,7 +42,7 @@ public class UserController {
             ro.setMessage("用户名或密码不正确");
         } else {
             //进一步查询账号是否合法
-            String nowStr = DateUtils.formatDateTime(new Date());
+            String nowStr = DateUtils.formatDateTime(new Date()); //将当前的时间转换为字符串格式
             if (nowStr.compareTo(user.getExpireTime()) > 0) {
                 //登陆失败，账号过期
                 ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
@@ -55,11 +55,9 @@ public class UserController {
                 //登陆失败，ip被锁定
                 ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
                 ro.setMessage("账号ip被锁定");
-                System.out.println(request.getRemoteAddr());
             } else {
                 ro.setCode(Contants.RETURN_RETURN_CODE_SUCCESS);
                 session.setAttribute(Contants.SESSION_USER, user); // 将user存入session, 可以再前台使用
-
                 //如果需要记住密码，则往外写cookie
                 if("true".equals(isRemPwd)){
                     Cookie c1 = new Cookie("loginAct", user.getLoginAct());
@@ -82,7 +80,6 @@ public class UserController {
         return ro;
     }
 
-
     @RequestMapping("/settings/qx/user/logout.do")
     public String logout(HttpServletResponse response, HttpSession session){
         //清空cookie
@@ -94,8 +91,8 @@ public class UserController {
         response.addCookie(c2);
         //销毁session
         session.invalidate();
+//        return "redirect:/settings/qx/user/toLogin.do";
         return "redirect:/";
-
     }
 
 }
