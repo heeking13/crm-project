@@ -35,8 +35,9 @@
                 $(this).children("a").css("color", "white");
             });
 
+            // 不能直接访问静态资源，需要通过controller转发
+            window.open("workbench/main/index.do", "workareaFrame");
 
-            window.open("main/index.html", "workareaFrame");
 
             $("#logoutBtn").click(function () {
                 window.location.href = 'settings/qx/user/logout.do';
@@ -177,7 +178,7 @@
     <div id="navigation" style="left: 0px; width: 18%; position: relative; height: 100%; overflow:auto;">
 
         <ul id="no1" class="nav nav-pills nav-stacked">
-            <li class="liClass"><a href="main/index.html" target="workareaFrame"><span
+            <li class="liClass"><a href="main/index.jsp" target="workareaFrame"><span
                     class="glyphicon glyphicon-home"></span> 工作台</a></li>
             <li class="liClass"><a href="javascript:void(0);" target="workareaFrame"><span
                     class="glyphicon glyphicon-tag"></span> 动态</a></li>
