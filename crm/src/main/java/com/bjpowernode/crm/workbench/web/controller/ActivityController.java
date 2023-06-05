@@ -44,7 +44,7 @@ public class ActivityController {
         User user = (User) session.getAttribute(Contants.SESSION_USER);
         activity.setId(UUIDUtils.getUUID());
         activity.setCreateTime(DateUtils.formatDateTime(new Date()));
-        activity.setCreateBy(user.getId());
+        activity.setCreateBy(user.getId()); //传id,不要传name,防止重名
         ReturnObject ro = new ReturnObject();
         try {
             //调用service层，保存创建市场活动

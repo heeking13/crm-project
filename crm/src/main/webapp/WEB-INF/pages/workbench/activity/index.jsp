@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
 %>
@@ -21,7 +21,32 @@
     <script type="text/javascript">
 
         $(function () {
+            $("#createActivityBtn").click(function () {
+                $("#createActivityModal").modal("show");
+            });
 
+            $("#saveCreateActivityBtn").click(function () {
+                let owner = $("#create-marketActivityOwner").val();
+                let name = $.trim($("#create-marketActivityName").val());
+                let startDate = $("#create-startTime").val();
+                let endDate = $("#create-endTime").val();
+                let cost = $.trim($("#create-cost").val());
+                let description = $.trim($("#create-describe").val());
+                //表单验证
+                if(owner == ""){
+                    alert("所有者不能为空");
+                    return;
+                }
+                if(name == ""){
+                    alert("名称不能为空");
+                    return;
+                }
+                if(startDate != "" && endDate !=""){
+                    if(startDate > endDate){
+
+                    }
+                }
+            });
 
         });
 
@@ -89,7 +114,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+                <button type="button" class="btn btn-primary" id="saveCreateActivityBtn">保存</button>
             </div>
         </div>
     </div>
@@ -249,7 +274,7 @@
         <div class="btn-toolbar" role="toolbar"
              style="background-color: #F7F7F7; height: 50px; position: relative;top: 5px;">
             <div class="btn-group" style="position: relative; top: 18%;">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createActivityModal">
+                <button type="button" class="btn btn-primary" id="createActivityBtn">
                     <span class="glyphicon glyphicon-plus"></span> 创建
                 </button>
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editActivityModal"><span
