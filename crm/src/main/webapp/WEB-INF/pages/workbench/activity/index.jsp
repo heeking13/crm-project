@@ -22,6 +22,7 @@
 
         $(function () {
             $("#createActivityBtn").click(function () {
+                $("#createActivityForm")[0].reset();
                 $("#createActivityModal").modal("show");
             });
 
@@ -43,11 +44,37 @@
                 }
                 if(startDate != "" && endDate !=""){
                     if(startDate > endDate){
-
+                        alert("结束日期不能比开始日期早！");
+                        return;
                     }
                 }
+                let regExp = /^(([1-9]\d*)|0)$/;
+                if(!regExp.test(cost)){
+                    alert("成本只能是非负整数！");
+                    return;
+                }
+                $.ajax({
+                    url: "workbench/activity/saveCreateActivity.do",
+                    data:{
+                        owner: owner,
+                        name :name,
+                        startDate : startDate,
+                        endDate:endDate,
+                        cost:cost,
+                        description:description
+                    },
+                    type:"post",
+                    dataType:"json",
+                    success:function (data){
+                        if(data.code == "1"){
+                            $("#createActivityModal").modal("hide");
+                        } else {
+                            alert(data.message);
+                            $("#createActivityModal").modal("show");
+                        }
+                    }
+                })
             });
-
         });
 
     </script>
@@ -66,7 +93,7 @@
             </div>
             <div class="modal-body">
 
-                <form class="form-horizontal" role="form">
+                <form id="createActivityForm" class="form-horizontal" role="form">
 
                     <div class="form-group">
                         <label for="create-marketActivityOwner" class="col-sm-2 control-label">所有者<span
