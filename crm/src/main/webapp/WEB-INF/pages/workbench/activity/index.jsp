@@ -22,12 +22,14 @@
 
         $(function () {
             $("#createActivityBtn").click(function () {
-                $("#createActivityForm")[0].reset();
+                $("#createActivityForm")[0].reset();//如果需要使用dom对象
+                //$("#createActivityForm").get(0).reset();
                 $("#createActivityModal").modal("show");
             });
 
             $("#saveCreateActivityBtn").click(function () {
                 let owner = $("#create-marketActivityOwner").val();
+                //let owner = document.getElementById("create-marketActivityOwner").value();
                 let name = $.trim($("#create-marketActivityName").val());
                 let startDate = $("#create-startTime").val();
                 let endDate = $("#create-endTime").val();
@@ -48,7 +50,7 @@
                         return;
                     }
                 }
-                let regExp = /^(([1-9]\d*)|0)$/;
+                let regExp = /^(([1-9]\d*)|0)$/;//非负整数的正则表达式
                 if(!regExp.test(cost)){
                     alert("成本只能是非负整数！");
                     return;
@@ -126,7 +128,7 @@
 
                         <label for="create-cost" class="col-sm-2 control-label">成本</label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="create-cost">
+                            <input type="text" class="form-control" id="create-cost" placeholder="万元">
                         </div>
                     </div>
                     <div class="form-group">
