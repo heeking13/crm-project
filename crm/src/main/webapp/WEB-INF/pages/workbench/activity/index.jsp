@@ -19,7 +19,6 @@
             src="jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
 
     <script type="text/javascript">
-
         $(function () {
             $("#createActivityBtn").click(function () {
                 $("#createActivityForm")[0].reset();//如果需要使用dom对象
