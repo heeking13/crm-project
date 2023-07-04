@@ -58,6 +58,17 @@ public interface ActivityMapper {
     //添加市场活动
     int insertActivity(Activity activity);
 
-    //根据条件分页查询活动市场列表
+    /**
+     * 根据条件分页查询活动市场列表
+     * @param map
+     * @return
+     */
     List<Activity> selectActivityByConditionForPage(Map<String, Object> map);
+
+    /**
+     * 根据条件查询市场活动的总条数
+     * @param map
+     * @return
+     */
+    int selectCountOfActivityByCondition(Map<String, Object> map);
 }

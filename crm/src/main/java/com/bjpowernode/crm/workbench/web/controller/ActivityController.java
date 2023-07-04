@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class ActivityController {
@@ -49,9 +47,9 @@ public class ActivityController {
         try {
             //调用service层，保存创建市场活动
             int ret = activityService.saveCreateActivity(activity);
-            if(ret>0){
+            if (ret > 0) {
                 ro.setCode(Contants.RETURN_RETURN_CODE_SUCCESS);
-            } else{
+            } else {
                 ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
                 ro.setMessage("系统忙，请稍后重试～");
             }
@@ -61,5 +59,24 @@ public class ActivityController {
             ro.setMessage("系统忙，请稍后重试～");
         }
         return ro;
+    }
+
+    @RequestMapping("/workbench/activity/queryActivityByConditionForPage.do")
+    @ResponseBody
+    public Object queryActivityByConditionForPage(String name, String owner, String startDate, String endDate, int pageNo, int pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", name);
+        map.put("owner", owner);
+        map.put("startDate", startDate);
+        map.put("endDate", endDate);
+        map.put("beginNo", (pageNo - 1) * pageSize);
+        map.put("pageSize", pageSize);
+        List<Activity> activityList = activityService.queryActivityByConditionForPage(map);
+        int totalRows = activityService.queryCountOfActivityByCondition(map);
+        //根据查询结果，将数据activityList和totalRows封装到map里，生成响应信息
+        Map<String, Object> returnMap = new HashMap<>();
+        returnMap.put("activityList",activityList);
+        returnMap.put("totalRows",totalRows);
+        return returnMap;
     }
 }
