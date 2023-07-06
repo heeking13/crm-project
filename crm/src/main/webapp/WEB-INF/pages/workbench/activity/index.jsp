@@ -35,39 +35,39 @@
                 let cost = $.trim($("#create-cost").val());
                 let description = $.trim($("#create-describe").val());
                 //表单验证
-                if(owner == ""){
+                if (owner == "") {
                     alert("所有者不能为空");
                     return;
                 }
-                if(name == ""){
+                if (name == "") {
                     alert("名称不能为空");
                     return;
                 }
-                if(startDate != "" && endDate !=""){
-                    if(startDate > endDate){
+                if (startDate != "" && endDate != "") {
+                    if (startDate > endDate) {
                         alert("结束日期不能比开始日期早！");
                         return;
                     }
                 }
                 let regExp = /^(([1-9]\d*)|0)$/;//非负整数的正则表达式
-                if(!regExp.test(cost)){
+                if (!regExp.test(cost)) {
                     alert("成本只能是非负整数！");
                     return;
                 }
                 $.ajax({
                     url: "workbench/activity/saveCreateActivity.do",
-                    data:{
+                    data: {
                         owner: owner,
-                        name :name,
-                        startDate : startDate,
-                        endDate:endDate,
-                        cost:cost,
-                        description:description
+                        name: name,
+                        startDate: startDate,
+                        endDate: endDate,
+                        cost: cost,
+                        description: description
                     },
-                    type:"post",
-                    dataType:"json",
-                    success:function (data){
-                        if(data.code == "1"){
+                    type: "post",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code == "1") {
                             $("#createActivityModal").modal("hide");
                         } else {
                             alert(data.message);
@@ -90,41 +90,40 @@
 
             //当市场活动主页加载完成，查询所有数据的第一页及数据的总数
             //收集参数
-            var name = $("#query-name").val();
-            var owner = $("#query-owner").val();
-            var startDate = $("#query-startDate").val();
-            var endDate = $("#query-endDate").val();
-            var pageNo = 1;
-            var pageSize = 10;
+            let name = $("#query-name").val();
+            let owner = $("#query-owner").val();
+            let startDate = $("#query-startDate").val();
+            let endDate = $("#query-endDate").val();
+            let pageNo = 1;
+            let pageSize = 10;
             //发送请求，异步请求，ajax
             $.ajax({
                 url: 'workbench/activity/queryActivityByConditionForPage.do',
                 data: {
-                    name : name,
-                    owner:owner,
-                    startDate:startDate,
-                    endDate:endDate,
-                    pageNo:pageNo,
-                    pageSize:pageSize
+                    name: name,
+                    owner: owner,
+                    startDate: startDate,
+                    endDate: endDate,
+                    pageNo: pageNo,
+                    pageSize: pageSize
                 },
-                type:'post',
+                type: 'post',
                 dataType: 'json',
-                success:function (data){
+                success: function (data) {
                     $("#totalRowsB").text(data.totalRows);
                     //显示市场活动的列表
                     //遍历activityList, 拼接行数据
-                    $.each(data.activityList, function (){
-
+                    var htmlStr = "";
+                    $.each(data.activityList, function (index, obj) {
+                        htmlStr += " <tr class=\"active\">  ";
+                        htmlStr += "  <td><input type=\"checkbox\" value=\"" + obj.id + "\"/></td> ";
+                        htmlStr += " <td><a style=\"text-decoration: none; cursor: pointer;\" onclick=\"window.location.href='detail.html';\">" + obj.name + "</a></td> ";
+                        htmlStr += "  <td>" + obj.owner + "</td> ";
+                        htmlStr += "  <td>" + obj.startDate + "</td> ";
+                        htmlStr += "  <td>" + obj.endDate + "</td> ";
+                        htmlStr += " </tr> ";
                     });
-
-                    <tr class="active">
-                        <td><input type="checkbox"/></td>
-                        <td><a style="text-decoration: none; cursor: pointer;"
-                               onclick="window.location.href='detail.html';">发传单</a></td>
-                        <td>zhangsan</td>
-                        <td>2020-10-10</td>
-                        <td>2020-10-20</td>
-                    </tr>
+                    $("#tbody").html(htmlStr);
                 }
             });
         });
@@ -385,30 +384,15 @@
                     <td>结束日期</td>
                 </tr>
                 </thead>
-                <tbody>
-                <tr class="active">
-                    <td><input type="checkbox"/></td>
-                    <td><a style="text-decoration: none; cursor: pointer;"
-                           onclick="window.location.href='detail.html';">发传单</a></td>
-                    <td>zhangsan</td>
-                    <td>2020-10-10</td>
-                    <td>2020-10-20</td>
-                </tr>
-                <tr class="active">
-                    <td><input type="checkbox"/></td>
-                    <td><a style="text-decoration: none; cursor: pointer;"
-                           onclick="window.location.href='detail.html';">发传单</a></td>
-                    <td>zhangsan</td>
-                    <td>2020-10-10</td>
-                    <td>2020-10-20</td>
-                </tr>
+                <tbody id="tbody">
                 </tbody>
             </table>
         </div>
 
         <div style="height: 50px; position: relative;top: 30px;">
             <div>
-                <button type="button" class="btn btn-default" style="cursor: default;">共<b id="totalRowsB">50</b>条记录</button>
+                <button type="button" class="btn btn-default" style="cursor: default;">共<b id="totalRowsB">50</b>条记录
+                </button>
             </div>
             <div class="btn-group" style="position: relative;top: -34px; left: 110px;">
                 <button type="button" class="btn btn-default" style="cursor: default;">显示</button>

@@ -62,8 +62,9 @@ public class ActivityController {
     }
 
     @RequestMapping("/workbench/activity/queryActivityByConditionForPage.do")
-    @ResponseBody
-    public Object queryActivityByConditionForPage(String name, String owner, String startDate, String endDate, int pageNo, int pageSize) {
+    public @ResponseBody Object queryActivityByConditionForPage(String name, String owner, String startDate, String endDate,
+                                                                int pageNo, int pageSize) {
+        //封装参数
         Map<String, Object> map = new HashMap<>();
         map.put("name", name);
         map.put("owner", owner);
@@ -71,12 +72,13 @@ public class ActivityController {
         map.put("endDate", endDate);
         map.put("beginNo", (pageNo - 1) * pageSize);
         map.put("pageSize", pageSize);
+        //调用service层方法，查询数据
         List<Activity> activityList = activityService.queryActivityByConditionForPage(map);
         int totalRows = activityService.queryCountOfActivityByCondition(map);
-        //根据查询结果，将数据activityList和totalRows封装到map里，生成响应信息
-        Map<String, Object> returnMap = new HashMap<>();
-        returnMap.put("activityList",activityList);
-        returnMap.put("totalRows",totalRows);
-        return returnMap;
+        //根据查询结果结果，生成响应信息
+        Map<String, Object> retMap = new HashMap<>();
+        retMap.put("activityList", activityList);
+        retMap.put("totalRows", totalRows);
+        return retMap;
     }
 }
