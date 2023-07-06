@@ -69,6 +69,7 @@
                     success: function (data) {
                         if (data.code == "1") {
                             $("#createActivityModal").modal("hide");
+                            clearConditionQuery();
                         } else {
                             alert(data.message);
                             $("#createActivityModal").modal("show");
@@ -88,6 +89,20 @@
                 clearBtn: true
             });
 
+            queryActivityByConditionForPage();
+
+            //给查询按钮添加单击事件
+            $("#queryActivityBtn").click(function () {
+                queryActivityByConditionForPage();
+            });
+
+            //清空条件查询
+            $("#clearConditionBtn").click(function () {
+                clearConditionQuery();
+            });
+        });
+
+        function queryActivityByConditionForPage() {
             //当市场活动主页加载完成，查询所有数据的第一页及数据的总数
             //收集参数
             let name = $("#query-name").val();
@@ -126,8 +141,15 @@
                     $("#tbody").html(htmlStr);
                 }
             });
-        });
+        }
 
+        function clearConditionQuery(){
+            $("#query-name").val("");
+            $("#query-owner").val("");
+            $("#query-startDate").val("");
+            $("#query-endDate").val("");
+            queryActivityByConditionForPage();
+        }
     </script>
 </head>
 <body>
@@ -345,7 +367,8 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-default">查询</button>
+                <button type="button" class="btn btn-default" id="queryActivityBtn">查询</button>
+                <button type="button" class="btn btn-default" id="clearConditionBtn">清空</button>
 
             </form>
         </div>
@@ -391,7 +414,7 @@
 
         <div style="height: 50px; position: relative;top: 30px;">
             <div>
-                <button type="button" class="btn btn-default" style="cursor: default;">共<b id="totalRowsB">50</b>条记录
+                <button type="button" class="btn btn-default" style="cursor: default;">共&nbsp;<b id="totalRowsB">50</b>&nbsp;条记录
                 </button>
             </div>
             <div class="btn-group" style="position: relative;top: -34px; left: 110px;">
