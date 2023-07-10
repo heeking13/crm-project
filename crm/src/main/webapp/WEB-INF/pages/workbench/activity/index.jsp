@@ -72,7 +72,7 @@
                     success: function (data) {
                         if (data.code == "1") {
                             $("#createActivityModal").modal("hide");
-                            clearConditionQuery();
+                            clearConditionQuery(1,$("#page").bs_pagination('getOption','rowsPerPage'));
                         } else {
                             alert(data.message);
                             $("#createActivityModal").modal("show");
