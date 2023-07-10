@@ -96,12 +96,12 @@
 
             //给查询按钮添加单击事件
             $("#queryActivityBtn").click(function () {
-                queryActivityByConditionForPage(1,10);
+                queryActivityByConditionForPage(1,$("#page").bs_pagination('getOption','rowsPerPage'));
             });
 
             //清空条件查询
             $("#clearConditionBtn").click(function () {
-                clearConditionQuery(1,10);
+                clearConditionQuery(1,$("#page").bs_pagination('getOption','rowsPerPage'));
             });
         });
 
@@ -379,13 +379,13 @@
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">开始日期</div>
-                        <input class="form-control" type="text" id="query-startDate"/>
+                        <input class="form-control mydate" type="text" id="query-startDate" readonly/>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">结束日期</div>
-                        <input class="form-control" type="text" id="query-endDate">
+                        <input class="form-control mydate" type="text" id="query-endDate" readonly>
                     </div>
                 </div>
 
