@@ -89,28 +89,28 @@
                 clearBtn: true
             });
 
-            queryActivityByConditionForPage();
+            queryActivityByConditionForPage(1,10);
 
             //给查询按钮添加单击事件
             $("#queryActivityBtn").click(function () {
-                queryActivityByConditionForPage();
+                queryActivityByConditionForPage(1,10);
             });
 
             //清空条件查询
             $("#clearConditionBtn").click(function () {
-                clearConditionQuery();
+                clearConditionQuery(1,10);
             });
         });
 
-        function queryActivityByConditionForPage() {
+        function queryActivityByConditionForPage(pageNo, pageSize) {
             //当市场活动主页加载完成，查询所有数据的第一页及数据的总数
             //收集参数
             let name = $("#query-name").val();
             let owner = $("#query-owner").val();
             let startDate = $("#query-startDate").val();
             let endDate = $("#query-endDate").val();
-            let pageNo = 1;
-            let pageSize = 10;
+            // let pageNo = 1;
+            // let pageSize = 10;
             //发送请求，异步请求，ajax
             $.ajax({
                 url: 'workbench/activity/queryActivityByConditionForPage.do',
@@ -143,12 +143,13 @@
             });
         }
 
-        function clearConditionQuery(){
-            $("#query-name").val("");
-            $("#query-owner").val("");
-            $("#query-startDate").val("");
-            $("#query-endDate").val("");
-            queryActivityByConditionForPage();
+        function clearConditionQuery(pageNo, pageSize){
+            // $("#query-name").val("");
+            // $("#query-owner").val("");
+            // $("#query-startDate").val("");
+            // $("#query-endDate").val("");
+            $("#searchFormClear")[0].reset();
+            queryActivityByConditionForPage(pageNo,pageSize);
         }
     </script>
 </head>
@@ -171,6 +172,7 @@
                     <div class="form-group">
                         <label for="create-marketActivityOwner" class="col-sm-2 control-label">所有者<span
                                 style="font-size: 15px; color: red;">*</span></label>
+<%--  与表单元素绑定，获得焦点--%>
                         <div class="col-sm-10" style="width: 300px;">
                             <select class="form-control" id="create-marketActivityOwner">
                                 <c:forEach items="${users}" var="u">
@@ -337,7 +339,7 @@
     <div style="width: 100%; position: absolute;top: 5px; left: 10px;">
 
         <div class="btn-toolbar" role="toolbar" style="height: 80px;">
-            <form class="form-inline" role="form" style="position: relative;top: 8%; left: 5px;">
+            <form class="form-inline" role="form" style="position: relative;top: 8%; left: 5px;" id="searchFormClear">
 
                 <div class="form-group">
                     <div class="input-group">
