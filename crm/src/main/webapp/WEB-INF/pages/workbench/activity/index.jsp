@@ -72,7 +72,7 @@
                     success: function (data) {
                         if (data.code == "1") {
                             $("#createActivityModal").modal("hide");
-                            clearConditionQuery(1,$("#page").bs_pagination('getOption','rowsPerPage'));
+                            clearConditionQuery(1, $("#page").bs_pagination('getOption', 'rowsPerPage'));
                         } else {
                             alert(data.message);
                             $("#createActivityModal").modal("show");
@@ -92,18 +92,23 @@
                 clearBtn: true
             });
 
-            queryActivityByConditionForPage(1,10);
+            queryActivityByConditionForPage(1, 10);
 
             //给查询按钮添加单击事件
             $("#queryActivityBtn").click(function () {
-                queryActivityByConditionForPage(1,$("#page").bs_pagination('getOption','rowsPerPage'));
+                queryActivityByConditionForPage(1, $("#page").bs_pagination('getOption', 'rowsPerPage'));
             });
-
             //清空条件查询
             $("#clearConditionBtn").click(function () {
-                clearConditionQuery(1,$("#page").bs_pagination('getOption','rowsPerPage'));
+                clearConditionQuery(1, $("#page").bs_pagination('getOption', 'rowsPerPage'));
             });
+            //给"全选"按钮添加单击事件
+            $("#checkAll").click(function () {
+                //如果"全选"按钮是选中状态，则所有checkbox都选中
+                $("tbody input[type='checkbox']").prop("checked", this.checked);
+            })
         });
+
 
         function queryActivityByConditionForPage(pageNo, pageSize) {
             //当市场活动主页加载完成，查询所有数据的第一页及数据的总数
@@ -112,8 +117,6 @@
             var owner = $("#query-owner").val();
             var startDate = $("#query-startDate").val();
             var endDate = $("#query-endDate").val();
-            // var pageNo = 1;
-            // var pageSize = 10;
             //发送请求，异步请求，ajax
             $.ajax({
                 url: 'workbench/activity/queryActivityByConditionForPage.do',
@@ -138,13 +141,13 @@
                         htmlStr += "  <td>" + obj.owner + "</td> ";
                         htmlStr += "  <td>" + obj.startDate + "</td> ";
                         htmlStr += "  <td>" + obj.endDate + "</td> ";
-                        htmlStr += " </tr> ";
+                        htmlStr += "  </tr> ";
                     });
                     $("#tbody").html(htmlStr);
 
                     //计算总页数
                     var totalPages = 1;
-                    if(data.totalRows % pageSize == 0){
+                    if (data.totalRows % pageSize == 0) {
                         totalPages = data.totalRows / pageSize;
                     } else {
                         totalPages = parseInt(data.totalRows / pageSize) + 1;
@@ -153,13 +156,13 @@
                     $("#page").bs_pagination({
                         currentPage: pageNo,
                         rowsPerPage: pageSize,
-                        totalRows:data.totalRows,
-                        totalPages:totalPages,
+                        totalRows: data.totalRows,
+                        totalPages: totalPages,
                         visiblePageLinks: 7,
                         showGoToPage: true,
                         showRowsPerPage: true,
                         showRowsInfo: true,
-                        onChangePage: function(event, pageObj){
+                        onChangePage: function (event, pageObj) {
                             queryActivityByConditionForPage(pageObj.currentPage, pageObj.rowsPerPage);
                         }
                     })
@@ -167,9 +170,9 @@
             });
         }
 
-        function clearConditionQuery(pageNo, pageSize){
+        function clearConditionQuery(pageNo, pageSize) {
             $("#searchFormClear")[0].reset();
-            queryActivityByConditionForPage(pageNo,pageSize);
+            queryActivityByConditionForPage(pageNo, pageSize);
         }
     </script>
 </head>
@@ -192,7 +195,7 @@
                     <div class="form-group">
                         <label for="create-marketActivityOwner" class="col-sm-2 control-label">所有者<span
                                 style="font-size: 15px; color: red;">*</span></label>
-<%--  与表单元素绑定，获得焦点--%>
+                        <%--  与表单元素绑定，获得焦点--%>
                         <div class="col-sm-10" style="width: 300px;">
                             <select class="form-control" id="create-marketActivityOwner">
                                 <c:forEach items="${users}" var="u">
@@ -422,7 +425,7 @@
             <table class="table table-hover">
                 <thead>
                 <tr style="color: #B3B3B3;">
-                    <td><input type="checkbox"/></td>
+                    <td><input type="checkbox" id="checkAll"/></td>
                     <td>名称</td>
                     <td>所有者</td>
                     <td>开始日期</td>
@@ -436,41 +439,6 @@
 
             </div>
         </div>
-<%--        <div style="height: 50px; position: relative;top: 30px;">--%>
-<%--            <div>--%>
-<%--                <button type="button" class="btn btn-default" style="cursor: default;">共&nbsp;<b id="totalRowsB">50</b>&nbsp;条记录--%>
-<%--                </button>--%>
-<%--            </div>--%>
-<%--            <div class="btn-group" style="position: relative;top: -34px; left: 110px;">--%>
-<%--                <button type="button" class="btn btn-default" style="cursor: default;">显示</button>--%>
-<%--                <div class="btn-group">--%>
-<%--                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">--%>
-<%--                        10--%>
-<%--                        <span class="caret"></span>--%>
-<%--                    </button>--%>
-<%--                    <ul class="dropdown-menu" role="menu">--%>
-<%--                        <li><a href="#">20</a></li>--%>
-<%--                        <li><a href="#">30</a></li>--%>
-<%--                    </ul>--%>
-<%--                </div>--%>
-<%--                <button type="button" class="btn btn-default" style="cursor: default;">条/页</button>--%>
-<%--            </div>--%>
-<%--            <div style="position: relative;top: -88px; left: 285px;">--%>
-<%--                <nav>--%>
-<%--                    <ul class="pagination">--%>
-<%--                        <li class="disabled"><a href="#">首页</a></li>--%>
-<%--                        <li class="disabled"><a href="#">上一页</a></li>--%>
-<%--                        <li class="active"><a href="#">1</a></li>--%>
-<%--                        <li><a href="#">2</a></li>--%>
-<%--                        <li><a href="#">3</a></li>--%>
-<%--                        <li><a href="#">4</a></li>--%>
-<%--                        <li><a href="#">5</a></li>--%>
-<%--                        <li><a href="#">下一页</a></li>--%>
-<%--                        <li class="disabled"><a href="#">末页</a></li>--%>
-<%--                    </ul>--%>
-<%--                </nav>--%>
-<%--            </div>--%>
-<%--        </div>--%>
     </div>
 </div>
 </body>
