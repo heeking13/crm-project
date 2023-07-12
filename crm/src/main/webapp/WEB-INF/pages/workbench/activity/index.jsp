@@ -105,8 +105,12 @@
             //给"全选"按钮添加单击事件
             $("#checkAll").click(function () {
                 //如果"全选"按钮是选中状态，则所有checkbox都选中
-                $("tbody input[type='checkbox']").prop("checked", this.checked);
-            })
+                $("#tbody input[type='checkbox']").prop("checked", this.checked);
+            });
+            //如果有一个checkbox没有选中，那么全选按钮就不能显示
+            $("#tbody input[type='checkbox']").click(function (){
+                $("#checkAll").prop("checked", this.checked);
+            });
         });
 
 
