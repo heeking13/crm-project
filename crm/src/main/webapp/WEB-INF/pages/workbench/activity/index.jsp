@@ -115,6 +115,11 @@
                     $("#checkAll").prop("checked", false);
                 }
             })
+
+            //删除按钮添加单击事件
+            $("#deleteActivityBtn").click(function (){
+
+            });
         });
 
 
@@ -152,7 +157,7 @@
                         htmlStr += "  </tr> ";
                     });
                     $("#tbody").html(htmlStr);
-
+                    $("#checkAll").prop("checked", false);
                     //计算总页数
                     var totalPages = 1;
                     if (data.totalRows % pageSize == 0) {
@@ -414,7 +419,7 @@
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editActivityModal"><span
                         class="glyphicon glyphicon-pencil"></span> 修改
                 </button>
-                <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> 删除
+                <button type="button" class="btn btn-danger" id="deleteActivityBtn"><span class="glyphicon glyphicon-minus"></span> 删除
                 </button>
             </div>
             <div class="btn-group" style="position: relative; top: 18%;">
