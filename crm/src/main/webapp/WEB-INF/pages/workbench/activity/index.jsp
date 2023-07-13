@@ -72,6 +72,8 @@
                     success: function (data) {
                         if (data.code == "1") {
                             $("#createActivityModal").modal("hide");
+                            //$("#page").bs_pagination('getOption', 'rowsPerPage')获取当前显示数量
+                            //$("element_id").bs_pagination('getOption','option_name') 第二个参数传想获得什么值，如rowsPerPage,currentPage
                             clearConditionQuery(1, $("#page").bs_pagination('getOption', 'rowsPerPage'));
                         } else {
                             alert(data.message);
@@ -118,7 +120,34 @@
 
             //删除按钮添加单击事件
             $("#deleteActivityBtn").click(function (){
-
+                //收集参数 获取列表中被选中的checkbox，获得
+                var deleteActivities = $("#tbody input[type='checkbox']:checked");
+                if(deleteActivities.size() == 0){
+                    alert("需要选中至少一个活动")
+                    return;
+                }
+                if(window.confirm("确定删除？")){
+                    var ids = "";
+                    $.each(deleteActivities, function (index, obj){
+                        ids += "id=" + obj.value + "&";
+                    })
+                    ids = ids.substr(0,ids.length-1);
+                    // alert(ids);
+                    // alert($("#page").bs_pagination('getOption', 'currentPage'))
+                    $.ajax({
+                        url: "workbench/activity/deleteActivity.do",
+                        data: ids,
+                        type: "post",
+                        dataType: "json",
+                        success: function (data){
+                            if(data.code == "1"){
+                                queryActivityByConditionForPage(1, $("#page").bs_pagination('getOption', 'rowsPerPage'));
+                            } else {
+                                alert(data.message);
+                            }
+                        }
+                    })
+                }
             });
         });
 
