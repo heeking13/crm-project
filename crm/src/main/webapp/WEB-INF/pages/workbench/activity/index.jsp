@@ -108,9 +108,13 @@
                 $("#tbody input[type='checkbox']").prop("checked", this.checked);
             });
             //如果有一个checkbox没有选中，那么全选按钮就不能显示
-            $("#tbody input[type='checkbox']").click(function (){
-                $("#checkAll").prop("checked", this.checked);
-            });
+            $("#tbody").on("click","input[type='checkbox']",function (){
+                if($("#tbody input[type='checkbox']").size() == $("#tbody input[type='checkbox']:checked").size()){
+                    $("#checkAll").prop("checked", true);
+                } else {
+                    $("#checkAll").prop("checked", false);
+                }
+            })
         });
 
 
