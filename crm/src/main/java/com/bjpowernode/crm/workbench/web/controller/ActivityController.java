@@ -33,6 +33,7 @@ public class ActivityController {
         return "workbench/activity/index";
     }
 
+    //新增活动
     @RequestMapping("/workbench/activity/saveCreateActivity.do")
     @ResponseBody
     public Object saveCreateActivity(Activity activity, HttpSession session) {
@@ -61,9 +62,13 @@ public class ActivityController {
         return ro;
     }
 
+    /*
+    查询活动
+     */
     @RequestMapping("/workbench/activity/queryActivityByConditionForPage.do")
-    public @ResponseBody Object queryActivityByConditionForPage(String name, String owner, String startDate, String endDate,
-                                                                int pageNo, int pageSize) {
+    @ResponseBody
+    public Object queryActivityByConditionForPage(String name, String owner, String startDate, String endDate,
+                                                  int pageNo, int pageSize) {
         //封装参数
         Map<String, Object> map = new HashMap<>();
         map.put("name", name);
@@ -82,13 +87,16 @@ public class ActivityController {
         return retMap;
     }
 
+    /*
+    删除活动功能
+     */
     @RequestMapping("/workbench/activity/deleteActivity.do")
     @ResponseBody
     public Object deleteActivity(String[] id) {
         ReturnObject ro = new ReturnObject();
         try {
             int ret = activityService.deleteActivityByIds(id);
-            if(ret >0){
+            if (ret > 0) {
                 ro.setCode(Contants.RETURN_RETURN_CODE_SUCCESS);
             } else {
                 ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);

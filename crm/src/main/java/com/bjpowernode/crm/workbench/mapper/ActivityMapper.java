@@ -74,4 +74,7 @@ public interface ActivityMapper {
 
     //批量删除市场活动
     int deleteActivityByIds(String[] ids);
+
+    //根据id查询活动，填写修改活动窗口
+    Activity selectActivityById(String id);
 }
