@@ -115,10 +115,32 @@ public class ActivityController {
      */
     @RequestMapping("/workbench/activity/queryActivityById.do")
     @ResponseBody
-    public Object queryActivityById(String id){
+    public Object queryActivityById(String id) {
         //调用service层
         return activityService.queryActivityById(id);
     }
 
-    public Object 
+    @RequestMapping("/workbench/activity/updateActivityById.do")
+    @ResponseBody
+    public Object updateActivityById(Activity activity, HttpSession session) {
+        User user = (User) session.getAttribute(Contants.SESSION_USER);
+        activity.setEditTime(DateUtils.formatDateTime(new Date()));
+        activity.setEditBy(user.getId());
+        int flag = activityService.updateActivity(activity);
+        ReturnObject ro = new ReturnObject();
+        try {
+            if (flag > 0) {
+                ro.setCode(Contants.RETURN_RETURN_CODE_SUCCESS);
+            } else {
+                ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
+                ro.setMessage("系统繁忙，请稍后重试～");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
+            ro.setMessage("系统繁忙，请稍后重试～");
+        }
+        return ro;
+    }
 }

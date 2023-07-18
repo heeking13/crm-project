@@ -46,6 +46,14 @@
                     alert("名称不能为空");
                     return;
                 }
+                if (startDate == "") {
+                    alert("开始日期不能为空");
+                    return;
+                }
+                if (endDate == "") {
+                    alert("结束日期不能为空");
+                    return;
+                }
                 if (startDate != "" && endDate != "") {
                     if (startDate > endDate) {
                         alert("结束日期不能比开始日期早！");
@@ -110,8 +118,8 @@
                 $("#tbody input[type='checkbox']").prop("checked", this.checked);
             });
             //如果有一个checkbox没有选中，那么全选按钮就不能显示
-            $("#tbody").on("click","input[type='checkbox']",function (){
-                if($("#tbody input[type='checkbox']").size() == $("#tbody input[type='checkbox']:checked").size()){
+            $("#tbody").on("click", "input[type='checkbox']", function () {
+                if ($("#tbody input[type='checkbox']").size() == $("#tbody input[type='checkbox']:checked").size()) {
                     $("#checkAll").prop("checked", true);
                 } else {
                     $("#checkAll").prop("checked", false);
@@ -119,20 +127,20 @@
             })
 
             //删除按钮添加单击事件
-            $("#deleteActivityBtn").click(function (){
+            $("#deleteActivityBtn").click(function () {
                 //收集参数 获取列表中被选中的checkbox，获得
                 var deleteActivities = $("#tbody input[type='checkbox']:checked");
-                if(deleteActivities.size() == 0){
+                if (deleteActivities.size() == 0) {
                     alert("需要选中至少一个活动")
                     return;
                 }
-                if(window.confirm("确定删除？")){
+                if (window.confirm("确定删除？")) {
                     var ids = "";
-                    $.each(deleteActivities, function (index, obj){
+                    $.each(deleteActivities, function (index, obj) {
                         ids += "id=" + $(obj).val() + "&";
                         //deleteActivities 是jquery对象，obj是循环的dom对象，这里也可以写成 obj.value
                     })
-                    ids = ids.substr(0,ids.length-1);
+                    ids = ids.substr(0, ids.length - 1);
                     // alert(ids);
                     // alert($("#page").bs_pagination('getOption', 'currentPage'))
                     $.ajax({
@@ -140,8 +148,8 @@
                         data: ids,
                         type: "post",
                         dataType: "json",
-                        success: function (data){
-                            if(data.code == "1"){
+                        success: function (data) {
+                            if (data.code == "1") {
                                 queryActivityByConditionForPage(1, $("#page").bs_pagination('getOption', 'rowsPerPage'));
                             } else {
                                 alert(data.message);
@@ -152,24 +160,24 @@
             });
 
             //修改市场活动单击事件
-            $("#editActivityBtn").click(function (){
+            $("#editActivityBtn").click(function () {
                 var checkedIds = $("#tbody input[type='checkbox']:checked");
-                if(checkedIds.size() == 0){
+                if (checkedIds.size() == 0) {
                     alert("请选择要修改的活动～");
                     return;
-                } else if(checkedIds.size() > 1){
+                } else if (checkedIds.size() > 1) {
                     alert("只能选择一个市场活动进行修改～");
                     return;
                 }
                 var id = checkedIds.val();
                 $.ajax({
                     url: "workbench/activity/queryActivityById.do",
-                    data:{
-                        id:id
+                    data: {
+                        id: id
                     },
-                    type:'post',
-                    dataType:'json',
-                    success: function (data){
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (data) {
                         $("#edit-id").val(data.id); //隐藏显示
                         $("#edit-marketActivityOwner").val(data.owner);
                         $("#edit-marketActivityName").val(data.name);
@@ -181,6 +189,44 @@
                     }
                 })
             });
+
+            //保存修改的市场活动
+            $("#updateActivityBtn").click(function () {
+                //收集参数
+                var id = $("#edit-id").val();
+                var owner = $("#edit-marketActivityOwner").val();
+                var name = $("#edit-marketActivityName").val();
+                var startDate = $("#edit-startTime").val();
+                var endDate = $("#edit-endTime").val();
+                var cost = $("#edit-cost").val();
+                var description = $("#edit-describe").val();
+                $.ajax({
+                    url: 'workbench/activity/updateActivityById.do',
+                    data: {
+                        id: id,
+                        owner: owner,
+                        name: name,
+                        startDate: startDate,
+                        endDate: endDate,
+                        cost: cost,
+                        description: description
+                    },
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code = "1") {
+                            $("#editActivityModal").modal("hide");
+                            queryActivityByConditionForPage($("#page").bs_pagination('getOption', 'currentPage'), $("#page").bs_pagination('getOption', 'rowsPerPage'));
+                        } else {
+                            alert(data.message);
+                        }
+                    }
+                })
+            })
+
+            $("#closeUpdateActivity").click(function () {
+                $("#editActivityModal").modal("hide");
+            })
         });
 
 
@@ -379,8 +425,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">更新</button>
+                <button type="button" class="btn btn-default" id="closeUpdateActivity">关闭</button>
+                <button type="button" class="btn btn-primary" id="updateActivityBtn">更新</button>
             </div>
         </div>
     </div>
@@ -474,11 +520,14 @@
         <div class="btn-toolbar" role="toolbar"
              style="background-color: #F7F7F7; height: 50px; position: relative;top: 5px;">
             <div class="btn-group" style="position: relative; top: 18%;">
-                <button type="button" class="btn btn-primary" id="createActivityBtn"><span class="glyphicon glyphicon-plus"></span> 创建
+                <button type="button" class="btn btn-primary" id="createActivityBtn"><span
+                        class="glyphicon glyphicon-plus"></span> 创建
                 </button>
-                <button type="button" class="btn btn-default" id="editActivityBtn"><span class="glyphicon glyphicon-pencil"></span> 修改
+                <button type="button" class="btn btn-default" id="editActivityBtn"><span
+                        class="glyphicon glyphicon-pencil"></span> 修改
                 </button>
-                <button type="button" class="btn btn-danger" id="deleteActivityBtn"><span class="glyphicon glyphicon-minus"></span> 删除
+                <button type="button" class="btn btn-danger" id="deleteActivityBtn"><span
+                        class="glyphicon glyphicon-minus"></span> 删除
                 </button>
             </div>
             <div class="btn-group" style="position: relative; top: 18%;">
