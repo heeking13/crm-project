@@ -195,11 +195,39 @@
                 //收集参数
                 var id = $("#edit-id").val();
                 var owner = $("#edit-marketActivityOwner").val();
-                var name = $("#edit-marketActivityName").val();
+                var name = $.trim($("#edit-marketActivityName").val());
                 var startDate = $("#edit-startTime").val();
                 var endDate = $("#edit-endTime").val();
-                var cost = $("#edit-cost").val();
-                var description = $("#edit-describe").val();
+                var cost = $.trim($("#edit-cost").val());
+                var description = $.trim($("#edit-describe").val());
+                //表单验证
+                if (owner == "") {
+                    alert("所有者不能为空");
+                    return;
+                }
+                if (name == "") {
+                    alert("名称不能为空");
+                    return;
+                }
+                if (startDate == "") {
+                    alert("开始日期不能为空");
+                    return;
+                }
+                if (endDate == "") {
+                    alert("结束日期不能为空");
+                    return;
+                }
+                if (startDate != "" && endDate != "") {
+                    if (startDate > endDate) {
+                        alert("结束日期不能比开始日期早！");
+                        return;
+                    }
+                }
+                var regExp = /^(([1-9]\d*)|0)$/;//非负整数的正则表达式
+                if (!regExp.test(cost)) {
+                    alert("成本只能是非负整数！");
+                    return;
+                }
                 $.ajax({
                     url: 'workbench/activity/updateActivityById.do',
                     data: {
@@ -219,6 +247,7 @@
                             queryActivityByConditionForPage($("#page").bs_pagination('getOption', 'currentPage'), $("#page").bs_pagination('getOption', 'rowsPerPage'));
                         } else {
                             alert(data.message);
+                            $("#editActivityModal").modal("show");
                         }
                     }
                 })
