@@ -129,7 +129,8 @@
                 if(window.confirm("确定删除？")){
                     var ids = "";
                     $.each(deleteActivities, function (index, obj){
-                        ids += "id=" + obj.value + "&";
+                        ids += "id=" + $(obj).val() + "&";
+                        //deleteActivities 是jquery对象，obj是循环的dom对象，这里也可以写成 obj.value
                     })
                     ids = ids.substr(0,ids.length-1);
                     // alert(ids);
@@ -148,6 +149,37 @@
                         }
                     })
                 }
+            });
+
+            //修改市场活动单击事件
+            $("#editActivityBtn").click(function (){
+                var checkedIds = $("#tbody input[type='checkbox']:checked");
+                if(checkedIds.size() == 0){
+                    alert("请选择要修改的活动～");
+                    return;
+                } else if(checkedIds.size() > 1){
+                    alert("只能选择一个市场活动进行修改～");
+                    return;
+                }
+                var id = checkedIds.val();
+                $.ajax({
+                    url: "workbench/activity/queryActivityById.do",
+                    data:{
+                        id:id
+                    },
+                    type:'post',
+                    dataType:'json',
+                    success: function (data){
+                        $("#edit-id").val(data.id); //隐藏显示
+                        $("#edit-marketActivityOwner").val(data.owner);
+                        $("#edit-marketActivityName").val(data.name);
+                        $("#edit-startTime").val(data.startDate);
+                        $("#edit-endTime").val(data.endDate);
+                        $("#edit-cost").val(data.cost);
+                        $("#edit-describe").val(data.description);
+                        $("#editActivityModal").modal("show");
+                    }
+                })
             });
         });
 
@@ -300,7 +332,7 @@
             <div class="modal-body">
 
                 <form class="form-horizontal" role="form">
-
+                    <input type="hidden" id="edit-id">
                     <div class="form-group">
                         <label for="edit-marketActivityOwner" class="col-sm-2 control-label">所有者<span
                                 style="font-size: 15px; color: red;">*</span></label>
@@ -442,11 +474,9 @@
         <div class="btn-toolbar" role="toolbar"
              style="background-color: #F7F7F7; height: 50px; position: relative;top: 5px;">
             <div class="btn-group" style="position: relative; top: 18%;">
-                <button type="button" class="btn btn-primary" id="createActivityBtn">
-                    <span class="glyphicon glyphicon-plus"></span> 创建
+                <button type="button" class="btn btn-primary" id="createActivityBtn"><span class="glyphicon glyphicon-plus"></span> 创建
                 </button>
-                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editActivityModal"><span
-                        class="glyphicon glyphicon-pencil"></span> 修改
+                <button type="button" class="btn btn-default" id="editActivityBtn"><span class="glyphicon glyphicon-pencil"></span> 修改
                 </button>
                 <button type="button" class="btn btn-danger" id="deleteActivityBtn"><span class="glyphicon glyphicon-minus"></span> 删除
                 </button>

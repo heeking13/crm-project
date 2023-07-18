@@ -77,4 +77,7 @@ public interface ActivityMapper {
 
     //根据id查询活动，填写修改活动窗口
     Activity selectActivityById(String id);
+
+    //修改市场活动信息
+    int updateActivity(Activity activity);
 }

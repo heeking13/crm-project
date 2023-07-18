@@ -109,4 +109,16 @@ public class ActivityController {
         }
         return ro;
     }
+
+    /*
+        查询活动填充到修改页面
+     */
+    @RequestMapping("/workbench/activity/queryActivityById.do")
+    @ResponseBody
+    public Object queryActivityById(String id){
+        //调用service层
+        return activityService.queryActivityById(id);
+    }
+
+    public Object 
 }
