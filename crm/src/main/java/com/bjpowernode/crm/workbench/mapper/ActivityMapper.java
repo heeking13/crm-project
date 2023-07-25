@@ -80,4 +80,7 @@ public interface ActivityMapper {
 
     //修改市场活动信息
     int updateActivity(Activity activity);
+
+    //查询所有的市场活动导出
+    List<Activity> selectAllActivities();
 }
