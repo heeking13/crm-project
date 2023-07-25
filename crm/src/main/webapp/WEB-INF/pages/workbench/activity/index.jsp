@@ -256,6 +256,10 @@
             $("#closeUpdateActivity").click(function () {
                 $("#editActivityModal").modal("hide");
             })
+
+            $("#exportActivityAllBtn").click(function () {
+                window.location.href = "workbench/activity/exportAllActivities.do";
+            })
         });
 
 
@@ -428,11 +432,13 @@
                     <div class="form-group">
                         <label for="edit-startTime" class="col-sm-2 control-label">开始日期</label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control mydate" id="edit-startTime" value="2020-10-10" readonly>
+                            <input type="text" class="form-control mydate" id="edit-startTime" value="2020-10-10"
+                                   readonly>
                         </div>
                         <label for="edit-endTime" class="col-sm-2 control-label">结束日期</label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control mydate" id="edit-endTime" value="2020-10-20" readonly>
+                            <input type="text" class="form-control mydate" id="edit-endTime" value="2020-10-20"
+                                   readonly>
                         </div>
                     </div>
 
