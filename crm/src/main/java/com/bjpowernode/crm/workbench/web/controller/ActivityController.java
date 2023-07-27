@@ -216,22 +216,10 @@ public class ActivityController {
             }
         }
 
-//        OutputStream os = new FileOutputStream("/Users/heqing/Desktop/crm project/activityList.xls");
-//        wb.write(os);
-//        os.close();
-//        wb.close();
-
         //把生成的文件下载到客户端
         response.setContentType("application/octet-stream;charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment;filename=activityList.xls");
         OutputStream out = response.getOutputStream();
-//        InputStream is = new FileInputStream("/Users/heqing/Desktop/crm project/activityList.xls");
-//        byte[] buff = new byte[256];
-//        int len = 0;
-//        while ((len = is.read(buff)) != -1) {
-//            out.write(buff, 0, len);
-//        }
-//        is.close();
         wb.write(out);
         wb.close();
         out.flush();
