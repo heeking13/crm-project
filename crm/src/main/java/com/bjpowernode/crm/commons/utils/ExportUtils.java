@@ -10,6 +10,9 @@ import java.util.List;
 
 public class ExportUtils {
 
+    /*
+    根据list,生成excel文件
+     */
     public static HSSFWorkbook exportActivities(List<Activity> activityList){
         HSSFWorkbook wb = new HSSFWorkbook();
         HSSFSheet sheet = wb.createSheet("市场活动列表");
