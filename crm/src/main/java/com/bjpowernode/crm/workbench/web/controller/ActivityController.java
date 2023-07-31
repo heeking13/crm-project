@@ -131,6 +131,9 @@ public class ActivityController {
         return activityService.queryActivityById(id);
     }
 
+    /*
+    修改市场活动的信息
+     */
     @RequestMapping("/workbench/activity/updateActivityById.do")
     @ResponseBody
     public Object updateActivityById(Activity activity, HttpSession session) {
@@ -155,6 +158,9 @@ public class ActivityController {
         return ro;
     }
 
+    /*
+    导出全部活动
+     */
     @RequestMapping("/workbench/activity/exportAllActivities.do")
     public void exportAllActivities(HttpServletResponse response) throws Exception {
         //查询所有市场活动
@@ -170,9 +176,18 @@ public class ActivityController {
         out.flush();
     }
 
+    /*
+    导出选中的活动
+     */
     @RequestMapping("/workbench/activity/exportActivitiesByChoose.do")
-    public void exportActivitiesByChoose(String[] id){
+    public void exportActivitiesByChoose(String[] id, HttpServletResponse response) throws Exception{
         List<Activity> activityList = activityService.selectActivitiesByChoose(id);
-        ExportUtils
+        HSSFWorkbook wb = ExportUtils.exportActivities(activityList);
+        response.setContentType("application/octet-stream;charset=UTF-8");
+        response.setHeader("Content-Disposition","attachment;filename=activityList.xls");
+        OutputStream out = response.getOutputStream();
+        wb.write(out);
+        wb.close();
+        out.flush();
     }
 }
