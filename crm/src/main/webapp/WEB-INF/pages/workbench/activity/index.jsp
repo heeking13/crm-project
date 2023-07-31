@@ -258,6 +258,7 @@
             })
 
             $("#exportActivityAllBtn").click(function () {
+                //需要使用同步请求，文件下载
                 window.location.href = "workbench/activity/exportAllActivities.do";
             })
         });
