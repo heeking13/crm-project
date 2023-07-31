@@ -180,11 +180,12 @@ public class ActivityController {
     导出选中的活动
      */
     @RequestMapping("/workbench/activity/exportActivitiesByChoose.do")
-    public void exportActivitiesByChoose(String[] id, HttpServletResponse response) throws Exception{
+    public void exportActivitiesByChoose(String[] id, HttpServletResponse response) throws Exception {
         List<Activity> activityList = activityService.selectActivitiesByChoose(id);
+        System.out.println("展示信息：" + activityList.toString());
         HSSFWorkbook wb = ExportUtils.exportActivities(activityList);
         response.setContentType("application/octet-stream;charset=UTF-8");
-        response.setHeader("Content-Disposition","attachment;filename=activityList.xls");
+        response.setHeader("Content-Disposition", "attachment;filename=activityList.xls");
         OutputStream out = response.getOutputStream();
         wb.write(out);
         wb.close();

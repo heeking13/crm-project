@@ -262,9 +262,12 @@
                 window.location.href = "workbench/activity/exportAllActivities.do";
             })
 
+            /*
+            选择导出
+             */
             $("#exportActivityXzBtn").click(function () {
                 var selectActivities = $("#tbody input[type='checkbox']:checked");
-                if(selectActivities.size() == 0){
+                if (selectActivities.size() == 0) {
                     alert("至少选中一个");
                     return;
                 }
@@ -274,16 +277,7 @@
                     //selectActivities 是jquery对象，obj是循环的dom对象，这里也可以写成 obj.value
                 })
                 ids = ids.substr(0, ids.length - 1);
-                $.ajax({
-                    url: "workbench/activity/exportActivitiesByChoose.do",
-                    data: ids,
-                    type: "post",
-                    async:false,
-                    dataType: 'json',
-                    success: function (){
-                        alter("???")
-                    }
-                })
+                window.location.href = "workbench/activity/exportActivitiesByChoose.do?" + ids;
             })
         });
 
