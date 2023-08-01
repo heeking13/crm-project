@@ -166,7 +166,6 @@ public class ActivityController {
         //查询所有市场活动
         List<Activity> activityList = activityService.queryAllActivities();
         HSSFWorkbook wb = ExportUtils.exportActivities(activityList);
-
         //把生成的文件下载到客户端
         response.setContentType("application/octet-stream;charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment;filename=activityList.xls");
@@ -182,7 +181,6 @@ public class ActivityController {
     @RequestMapping("/workbench/activity/exportActivitiesByChoose.do")
     public void exportActivitiesByChoose(String[] id, HttpServletResponse response) throws Exception {
         List<Activity> activityList = activityService.selectActivitiesByChoose(id);
-        System.out.println("展示信息：" + activityList.toString());
         HSSFWorkbook wb = ExportUtils.exportActivities(activityList);
         response.setContentType("application/octet-stream;charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment;filename=activityList.xls");

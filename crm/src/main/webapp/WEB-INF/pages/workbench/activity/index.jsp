@@ -267,7 +267,7 @@
              */
             $("#exportActivityXzBtn").click(function () {
                 var selectActivities = $("#tbody input[type='checkbox']:checked");
-                if (selectActivities.size() == 0) {
+                if ($(selectActivities).length == 0) {
                     alert("至少选中一个");
                     return;
                 }
@@ -586,13 +586,13 @@
             </div>
             <div class="btn-group" style="position: relative; top: 18%;">
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#importActivityModal">
-                    <span class="glyphicon glyphicon-import"></span> 上传列表数据（导入）
+                    <span class="glyphicon glyphicon-export"></span> 上传列表数据（导入）
                 </button>
                 <button id="exportActivityAllBtn" type="button" class="btn btn-default"><span
-                        class="glyphicon glyphicon-export"></span> 下载列表数据（批量导出）
+                        class="glyphicon glyphicon-import"></span> 下载列表数据（批量导出）
                 </button>
                 <button id="exportActivityXzBtn" type="button" class="btn btn-default"><span
-                        class="glyphicon glyphicon-export"></span> 下载列表数据（选择导出）
+                        class="glyphicon glyphicon-import"></span> 下载列表数据（选择导出）
                 </button>
             </div>
         </div>

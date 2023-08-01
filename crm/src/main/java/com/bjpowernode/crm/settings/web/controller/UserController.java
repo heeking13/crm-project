@@ -83,7 +83,7 @@ public class UserController {
     }
 
     @RequestMapping("/settings/qx/user/logout.do")
-    public String logout(HttpServletResponse response, HttpSession session){
+    public Object logout(HttpServletResponse response, HttpSession session){
         //清空cookie
         Cookie c1 = new Cookie("loginAct", "1");
         Cookie c2 = new Cookie("loginPwd", "1");
