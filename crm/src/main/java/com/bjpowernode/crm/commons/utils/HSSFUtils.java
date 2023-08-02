@@ -8,7 +8,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import java.util.List;
 
-public class ExportUtils {
+public class HSSFUtils {
 
     /*
     根据list,生成excel文件

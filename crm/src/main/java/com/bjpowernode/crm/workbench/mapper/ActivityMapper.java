@@ -86,4 +86,7 @@ public interface ActivityMapper {
 
     //查询选择的市场活动导出
     List<Activity> selectActivitiesByChoose(String[] ids);
+
+    //批量保存市场活动
+    int insertActivityByList(List<Activity> activityList);
 }

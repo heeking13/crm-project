@@ -3,7 +3,7 @@ package com.bjpowernode.crm.workbench.web.controller;
 import com.bjpowernode.crm.commons.contants.Contants;
 import com.bjpowernode.crm.commons.domain.ReturnObject;
 import com.bjpowernode.crm.commons.utils.DateUtils;
-import com.bjpowernode.crm.commons.utils.ExportUtils;
+import com.bjpowernode.crm.commons.utils.HSSFUtils;
 import com.bjpowernode.crm.commons.utils.UUIDUtils;
 import com.bjpowernode.crm.settings.domain.User;
 import com.bjpowernode.crm.settings.service.UserService;
@@ -16,16 +16,14 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.*;
 
 @Controller
@@ -165,7 +163,7 @@ public class ActivityController {
     public void exportAllActivities(HttpServletResponse response) throws Exception {
         //查询所有市场活动
         List<Activity> activityList = activityService.queryAllActivities();
-        HSSFWorkbook wb = ExportUtils.exportActivities(activityList);
+        HSSFWorkbook wb = HSSFUtils.exportActivities(activityList);
         //把生成的文件下载到客户端
         response.setContentType("application/octet-stream;charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment;filename=activityList.xls");
@@ -181,12 +179,39 @@ public class ActivityController {
     @RequestMapping("/workbench/activity/exportActivitiesByChoose.do")
     public void exportActivitiesByChoose(String[] id, HttpServletResponse response) throws Exception {
         List<Activity> activityList = activityService.selectActivitiesByChoose(id);
-        HSSFWorkbook wb = ExportUtils.exportActivities(activityList);
+        HSSFWorkbook wb = HSSFUtils.exportActivities(activityList);
         response.setContentType("application/octet-stream;charset=UTF-8");
         response.setHeader("Content-Disposition", "attachment;filename=activityList.xls");
         OutputStream out = response.getOutputStream();
         wb.write(out);
         wb.close();
         out.flush();
+    }
+
+    @RequestMapping("/workbench/activity/importActivityByList.do")
+    @ResponseBody
+    public Object importActivityByList(MultipartFile activityFile) {
+        try {
+            //把excel文件写到磁盘目录中
+            String originalFilename = activityFile.getOriginalFilename();
+            File file = new File("/Users/heqing/Desktop/crm project/test/", originalFilename);
+            activityFile.transferTo(file);
+
+            //解析excel文件，获取文件中的数据，存入到excel中，
+            FileInputStream is = new FileInputStream("/Users/heqing/Desktop/crm project/test/" + originalFilename);
+            HSSFWorkbook wb = new HSSFWorkbook(is);
+            HSSFSheet sheet = wb.getSheetAt(0);
+            HSSFRow row = null;
+            HSSFCell cell = null;
+            Activity activity=null;
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                row = sheet.getRow(i);
+                activity = new Activity();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
