@@ -13,7 +13,7 @@ public class HSSFUtils {
     /*
     根据list,生成excel文件
      */
-    public static HSSFWorkbook exportActivities(List<Activity> activityList){
+    public static HSSFWorkbook exportActivities(List<Activity> activityList) {
         HSSFWorkbook wb = new HSSFWorkbook();
         HSSFSheet sheet = wb.createSheet("市场活动列表");
         HSSFRow row = sheet.createRow(0);
@@ -71,5 +71,27 @@ public class HSSFUtils {
             }
         }
         return wb;
+    }
+
+    /**
+     * 从指定的cell获取cellvalue
+     *
+     * @param cell
+     * @return
+     */
+    public static String getCellValueForString(HSSFCell cell) {
+        String ret = "";
+        if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
+            ret = cell.getStringCellValue();
+        } else if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
+            ret = cell.getNumericCellValue() + "";
+        } else if (cell.getCellType() == HSSFCell.CELL_TYPE_BOOLEAN) {
+            ret = cell.getBooleanCellValue() + "";
+        } else if (cell.getCellType() == HSSFCell.CELL_TYPE_FORMULA) {
+            ret = cell.getCellFormula();
+        } else {
+            ret = "";
+        }
+        return ret;
     }
 }

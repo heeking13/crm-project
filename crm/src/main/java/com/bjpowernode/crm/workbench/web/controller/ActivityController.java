@@ -190,28 +190,55 @@ public class ActivityController {
 
     @RequestMapping("/workbench/activity/importActivityByList.do")
     @ResponseBody
-    public Object importActivityByList(MultipartFile activityFile) {
+    public Object importActivityByList(MultipartFile activityFile, HttpSession session) {
+        ReturnObject ro = new ReturnObject();
+        User user = (User) session.getAttribute(Contants.SESSION_USER);
         try {
             //把excel文件写到磁盘目录中
             String originalFilename = activityFile.getOriginalFilename();
             File file = new File("/Users/heqing/Desktop/crm project/test/", originalFilename);
             activityFile.transferTo(file);
-
             //解析excel文件，获取文件中的数据，存入到excel中，
             FileInputStream is = new FileInputStream("/Users/heqing/Desktop/crm project/test/" + originalFilename);
             HSSFWorkbook wb = new HSSFWorkbook(is);
             HSSFSheet sheet = wb.getSheetAt(0);
             HSSFRow row = null;
             HSSFCell cell = null;
-            Activity activity=null;
-            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+            Activity activity = null;
+            List<Activity> activityList = new ArrayList<>();
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) { //sheet.getLastRowNum()最后一行的下标
                 row = sheet.getRow(i);
                 activity = new Activity();
+                activity.setId(UUIDUtils.getUUID());
+                activity.setOwner(user.getId());
+                activity.setCreateTime(DateUtils.formatDateTime(new Date()));
+                activity.setCreateBy(user.getId());
+                for (int j = 0; j < row.getLastCellNum(); j++) {
+                    cell = row.getCell(j);
+                    //获取列中的数据
+                    String cellValue = HSSFUtils.getCellValueForString(cell);
+                    if (j == 0) {
+                        activity.setName(cellValue);
+                    } else if (j == 1) {
+                        activity.setStartDate(cellValue);
+                    } else if (j == 2) {
+                        activity.setEndDate(cellValue);
+                    } else if (j == 3) {
+                        activity.setCost(cellValue);
+                    } else if (j == 4) {
+                        activity.setDescription(cellValue);
+                    }
+                }
+                activityList.add(activity);
             }
-
+            int count = activityService.saveCreateActivityByList(activityList);
+            ro.setCode(Contants.RETURN_RETURN_CODE_SUCCESS);
+            ro.setRetData(count);
         } catch (Exception e) {
             e.printStackTrace();
+            ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
+            ro.setMessage("系统繁忙，请稍后再试");
         }
-        return 0;
+        return ro;
     }
 }
