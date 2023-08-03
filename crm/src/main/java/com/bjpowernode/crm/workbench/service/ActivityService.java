@@ -22,5 +22,7 @@ public interface ActivityService {
 
     List<Activity> selectActivitiesByChoose(String[] ids);
 
-    public int saveCreateActivityByList(List<Activity> activityList);
+    int saveCreateActivityByList(List<Activity> activityList);
+
+    Activity queryActivityForDetailByActivityId(String id);
 }

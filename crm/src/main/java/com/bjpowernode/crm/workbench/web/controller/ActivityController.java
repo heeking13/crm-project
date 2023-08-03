@@ -188,6 +188,9 @@ public class ActivityController {
         out.flush();
     }
 
+    /*
+    下载导入模版
+     */
     @RequestMapping("/workbench/activity/downloadTemplate.do")
     public void downloadTemplate(HttpServletResponse response) throws Exception {
         HSSFWorkbook wb = HSSFUtils.hssfTemplate();
@@ -199,6 +202,9 @@ public class ActivityController {
         out.flush();
     }
 
+    /*
+    导入市场活动
+     */
     @RequestMapping("/workbench/activity/importActivityByList.do")
     @ResponseBody
     public Object importActivityByList(MultipartFile activityFile, HttpSession session) {
@@ -206,11 +212,12 @@ public class ActivityController {
         User user = (User) session.getAttribute(Contants.SESSION_USER);
         try {
             //把excel文件写到磁盘目录中
-            String originalFilename = activityFile.getOriginalFilename();
-            File file = new File("/Users/heqing/Desktop/crm project/test/", originalFilename);
-            activityFile.transferTo(file);
+            //String originalFilename = activityFile.getOriginalFilename();
+            //File file = new File("/Users/heqing/Desktop/crm project/test/", originalFilename);
+            //activityFile.transferTo(file);
             //解析excel文件，获取文件中的数据，存入到activity实体类中，
-            FileInputStream is = new FileInputStream("/Users/heqing/Desktop/crm project/test/" + originalFilename);
+            //FileInputStream is = new FileInputStream("/Users/heqing/Desktop/crm project/test/" + originalFilename);
+            InputStream is = activityFile.getInputStream();
             HSSFWorkbook wb = new HSSFWorkbook(is);
             HSSFSheet sheet = wb.getSheetAt(0);
             HSSFRow row = null;
@@ -252,4 +259,6 @@ public class ActivityController {
         }
         return ro;
     }
+
+    
 }
