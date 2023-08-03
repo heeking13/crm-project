@@ -8,6 +8,8 @@ import com.bjpowernode.crm.commons.utils.UUIDUtils;
 import com.bjpowernode.crm.settings.domain.User;
 import com.bjpowernode.crm.settings.service.UserService;
 import com.bjpowernode.crm.workbench.domain.Activity;
+import com.bjpowernode.crm.workbench.domain.ActivityRemark;
+import com.bjpowernode.crm.workbench.service.ActivityRemarkService;
 import com.bjpowernode.crm.workbench.service.ActivityService;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -33,6 +35,8 @@ public class ActivityController {
     private UserService userService;
     @Resource
     private ActivityService activityService;
+    @Resource
+    private ActivityRemarkService activityRemarkService;
 
     //跳转到市场活动主页面
     @RequestMapping("/workbench/activity/index.do")
@@ -260,5 +264,12 @@ public class ActivityController {
         return ro;
     }
 
-    
+    @RequestMapping("/workbench/activity/detailActivity.do")
+    public String detailActivity(String id, HttpServletRequest request) {
+        Activity activity = activityService.queryActivityForDetailByActivityId(id);
+        List<ActivityRemark> activityRemarks = activityRemarkService.queryActivityRemarkForDetailByActivityId(id);
+        request.setAttribute("activity", activity);
+        request.setAttribute("activityRemarks", activityRemarks);
+        return "workbench/activity/detail";
+    }
 }
