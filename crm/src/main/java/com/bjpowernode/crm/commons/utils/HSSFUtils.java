@@ -94,4 +94,24 @@ public class HSSFUtils {
         }
         return ret;
     }
+
+    /**
+     * 生成excel模版文件
+     */
+    public static HSSFWorkbook hssfTemplate(){
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet("市场活动列表");
+        HSSFRow row = sheet.createRow(0);
+        HSSFCell cell = row.createCell(0);
+        cell.setCellValue("市场活动名称");
+        cell = row.createCell(1);
+        cell.setCellValue("开始日期");
+        cell = row.createCell(2);
+        cell.setCellValue("结束日期");
+        cell = row.createCell(3);
+        cell.setCellValue("成本");
+        cell = row.createCell(4);
+        cell.setCellValue("描述");
+        return wb;
+    }
 }

@@ -188,6 +188,17 @@ public class ActivityController {
         out.flush();
     }
 
+    @RequestMapping("/workbench/activity/downloadTemplate.do")
+    public void downloadTemplate(HttpServletResponse response) throws Exception {
+        HSSFWorkbook wb = HSSFUtils.hssfTemplate();
+        response.setContentType("application/octet-stream;charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment;filename=activityList.xls");
+        OutputStream out = response.getOutputStream();
+        wb.write(out);
+        wb.close();
+        out.flush();
+    }
+
     @RequestMapping("/workbench/activity/importActivityByList.do")
     @ResponseBody
     public Object importActivityByList(MultipartFile activityFile, HttpSession session) {
@@ -198,7 +209,7 @@ public class ActivityController {
             String originalFilename = activityFile.getOriginalFilename();
             File file = new File("/Users/heqing/Desktop/crm project/test/", originalFilename);
             activityFile.transferTo(file);
-            //解析excel文件，获取文件中的数据，存入到excel中，
+            //解析excel文件，获取文件中的数据，存入到activity实体类中，
             FileInputStream is = new FileInputStream("/Users/heqing/Desktop/crm project/test/" + originalFilename);
             HSSFWorkbook wb = new HSSFWorkbook(is);
             HSSFSheet sheet = wb.getSheetAt(0);

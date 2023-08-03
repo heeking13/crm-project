@@ -279,6 +279,44 @@
                 ids = ids.substr(0, ids.length - 1);
                 window.location.href = "workbench/activity/exportActivitiesByChoose.do?" + ids;
             })
+
+            $("#importActivityBtn").click(function () {
+                var activityFileName = $("#activityFile").val();
+                var suffix = activityFileName.substr(activityFileName.lastIndexOf(".") + 1).toLocaleLowerCase();
+                if (suffix != "xls") {
+                    alert("只支持xls文件");
+                    return;
+                }
+                var activityFile = $("#activityFile").get(0).files[0];
+                if (activityFile.size > 5 * 1024 * 1024) {
+                    alert("文件大小不超过5M");
+                    return;
+                }
+                var formData = new FormData();
+                formData.append("activityFile", activityFile);
+                $.ajax({
+                    url: 'workbench/activity/importActivityByList.do',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == "1") {
+                            alert("成功导入" + data.retData + "条数据");
+                            $("#importActivityModal").modal("hide");
+                            queryActivityByConditionForPage(1, $("#page").bs_pagination('getOption', 'rowsPerPage'));
+                        } else {
+                            alert(data.message);
+                            $("#importActivityModal").modal("show");
+                        }
+                    }
+                })
+            })
+
+            $("#downloadTemplate").click(function () {
+                window.location.href = "workbench/activity/downloadTemplate.do";
+            })
         });
 
 
@@ -502,6 +540,9 @@
                 </div>
                 <div style="position: relative;top: 40px; left: 50px;">
                     <input type="file" id="activityFile">
+                </div>
+                <div style="position: relative;top: 60px; left: 50px;">
+                    <input type="button" value="下载模版" id="downloadTemplate">
                 </div>
                 <div style="position: relative; width: 400px; height: 320px; left: 45% ; top: -40px;">
                     <h3>重要提示</h3>
