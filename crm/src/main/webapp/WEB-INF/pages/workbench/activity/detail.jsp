@@ -51,6 +51,45 @@
             $(".myHref").mouseout(function () {
                 $(this).children("span").css("color", "#E6E6E6");
             });
+
+            $("#createRemark").click(function () {
+                var noteContent = $.trim($("#remark").val());
+                var activityId = '${activity.id}';
+                if(noteContent == "" || noteContent == null){
+                    alert("备注内容不能为空");
+                    return;
+                }
+                $.ajax({
+                    url:'workbench/activity/saveCreateActivityRemark.do',
+                    data:{
+                        noteContent:noteContent,
+                        activityId:activityId
+                    },
+                    type:'post',
+                    dataType:'json',
+                    success: function (data){
+                        if(data.code == "1"){
+                            $("#remark").val("");
+                            // $("#remark")[0].reset();
+                            var htmlStr = "";
+                            htmlStr += "<div class=\"remarkDiv\" style=\"height: 60px;\">";
+                            htmlStr += "<img title=\"${sessionScope.sessionUser.name}\" src=\"image/user-thumbnail.png\" style=\"width: 30px; height:30px;\">";
+                            htmlStr += "<div style=\"position: relative; top: -40px; left: 40px;\">";
+                            htmlStr += "<h5>"+data.retData.noteContent+"</h5>";
+                            htmlStr += "<font color=\"gray\">市场活动</font> <font color=\"gray\">-</font> <b>${activity.name}</b> <small style=\"color: gray;\">";
+                            htmlStr += " " +data.retData.createTime+" 由 ${sessionScope.sessionUser.name} 创建</small>";
+                            htmlStr += "<div style=\"position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display: none;\">";
+                            htmlStr += "<a class=\"myHref\" href=\"javascript:void(0);\" remarkId=\""+data.retData.id+"\"><span class=\"glyphicon glyphicon-edit\" style=\"font-size: 20px; color: #E6E6E6;\"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;<a class=\"myHref\" href=\"javascript:void(0);\" remarkId=\""+data.retData.id+"\"><span class=\"glyphicon glyphicon-remove\" style=\"font-size: 20px; color: #E6E6E6;\"></span></a>";
+                            htmlStr += "</div>";
+                            htmlStr += "</div>";
+                            htmlStr += "</div>";
+                            $("#remarkDiv").before(htmlStr);
+                        } else {
+                            alert(data.message);
+                        }
+                    }
+                })
+            })
         });
 
     </script>
@@ -152,7 +191,13 @@
                 ${activity.description}
             </b>
         </div>
-        <div style="height: 1px; width: 850px; background: #D5D5D5; position: relative; top: -20px;"></div>
+        <c:if test="${activity.description != ''}">
+            <div style="height: 1px; width: 850px; background: #D5D5D5; position: relative; top: -20px;"></div>
+        </c:if>
+        <c:if test="${activity.description == ''}">
+            <div style="height: 1px; width: 850px; background: #D5D5D5; position: relative; top: 0px;"></div>
+        </c:if>
+
     </div>
 </div>
 
@@ -162,28 +207,20 @@
         <h4>备注</h4>
     </div>
 
-    <c.forEach items="${activityRemarks}" val="obj">
-        <div class="remarkDiv" style="height: 60px;">
-            <img title="${obj.createBy}" src="image/user-thumbnail.png" style="width: 30px; height:30px;">
-            <div style="position: relative; top: -40px; left: 40px;">
-                <h5>${obj.noteContent}</h5>
-                <font color="gray">市场活动</font> <font color="gray">-</font> <b>${activity.name}</b> <small
-                    style="color: gray;">
-                <c:if test="${obj.editFlag =='1'}">${obj.editTime}</c:if><c:if
-                    test="${obj.editFlag !='1'}">${obj.createTime}</c:if>
-                由 ${obj.editFlag=='1'?obj.editBy:obj.createBy}${obj.editFlag=='1'?'修改':'创建'}</small>
+    <c:forEach items="${remarkList}" var="remark">
+        <div id="div_${remark.id}" class="remarkDiv" style="height: 60px;">
+            <img title="${remark.createBy}" src="image/user-thumbnail.png" style="width: 30px; height:30px;">
+            <div style="position: relative; top: -40px; left: 40px;" >
+                <h5>${remark.noteContent}</h5>
+                <font color="gray">市场活动</font> <font color="gray">-</font> <b>${activity.name}</b> <small style="color: gray;"> ${remark.editFlag=='1'?remark.editTime:remark.createTime} 由${remark.editFlag=='1'?remark.editBy:remark.createBy}${remark.editFlag=='1'?'修改':'创建'}</small>
                 <div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display: none;">
-                    <a class="myHref" href="javascript:void(0);" remarkId="${obj.id}"><span
-                            class="glyphicon glyphicon-edit"
-                            style="font-size: 20px; color: #E6E6E6;"></span></a>
+                    <a class="myHref" name="editA" remarkId="${remark.id}" href="javascript:void(0);"><span class="glyphicon glyphicon-edit" style="font-size: 20px; color: #E6E6E6;"></span></a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a class="myHref" href="javascript:void(0);" remarkId="${obj.id}"><span
-                            class="glyphicon glyphicon-remove"
-                            style="font-size: 20px; color: #E6E6E6;"></span></a>
+                    <a class="myHref" name="deleteA" remarkId="${remark.id}" href="javascript:void(0);"><span class="glyphicon glyphicon-remove" style="font-size: 20px; color: #E6E6E6;"></span></a>
                 </div>
             </div>
         </div>
-    </c.forEach>
+    </c:forEach>
 
     <div id="remarkDiv" style="background-color: #E6E6E6; width: 870px; height: 90px;">
         <form role="form" style="position: relative;top: 10px; left: 10px;">
@@ -191,7 +228,7 @@
                       placeholder="添加备注..."></textarea>
             <p id="cancelAndSaveBtn" style="position: relative;left: 737px; top: 10px; display: none;">
                 <button id="cancelBtn" type="button" class="btn btn-default">取消</button>
-                <button type="button" class="btn btn-primary">保存</button>
+                <button type="button" class="btn btn-primary" id="createRemark">保存</button>
             </p>
         </form>
     </div>

@@ -267,9 +267,9 @@ public class ActivityController {
     @RequestMapping("/workbench/activity/detailActivity.do")
     public String detailActivity(String id, HttpServletRequest request) {
         Activity activity = activityService.queryActivityForDetailByActivityId(id);
-        List<ActivityRemark> activityRemarks = activityRemarkService.queryActivityRemarkForDetailByActivityId(id);
+        List<ActivityRemark> remarkList = activityRemarkService.queryActivityRemarkForDetailByActivityId(id);
         request.setAttribute("activity", activity);
-        request.setAttribute("activityRemarks", activityRemarks);
+        request.setAttribute("remarkList", remarkList);
         return "workbench/activity/detail";
     }
 }
