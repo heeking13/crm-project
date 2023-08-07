@@ -52,11 +52,11 @@ public class UserController {
                 ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
                 ro.setMessage("账号被锁定");
             }
-//            else if (!user.getAllowIps().contains(request.getRemoteAddr())) {
-//                //登陆失败，ip被锁定
-//                ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
-//                ro.setMessage("账号ip被锁定");
-//            }
+            else if (!user.getAllowIps().contains(request.getRemoteAddr())) {
+                //登陆失败，ip被锁定
+                ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
+                ro.setMessage("账号ip被锁定");
+            }
             else {
                 ro.setCode(Contants.RETURN_RETURN_CODE_SUCCESS);
                 session.setAttribute(Contants.SESSION_USER, user); // 将user存入session, 可以再前台使用

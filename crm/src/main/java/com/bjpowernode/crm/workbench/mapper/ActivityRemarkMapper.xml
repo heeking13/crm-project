@@ -172,6 +172,7 @@
                  join tbl_user u1 on a.create_by = u1.id
                  left join tbl_user u2 on a.edit_by = u2.id
         where a.activity_id = #{id}
+        order by a.create_time asc
     </select>
 
     <insert id="insertActivityRemark" parameterType="com.bjpowernode.crm.workbench.domain.ActivityRemark">

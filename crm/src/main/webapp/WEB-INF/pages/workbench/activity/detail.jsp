@@ -36,21 +36,30 @@
                 cancelAndSaveBtnDefault = true;
             });
 
-            $(".remarkDiv").mouseover(function () {
+            $("#remarkDivList").on("mouseover",".remarkDiv",function (){
                 $(this).children("div").children("div").show();
-            });
-
-            $(".remarkDiv").mouseout(function () {
+            })
+            $("#remarkDivList").on("mouseout",".remarkDiv",function (){
                 $(this).children("div").children("div").hide();
-            });
-
-            $(".myHref").mouseover(function () {
+            })
+            $("#remarkDivList").on("mouseover",".myHref",function (){
                 $(this).children("span").css("color", "red");
-            });
-
-            $(".myHref").mouseout(function () {
+            })
+            $("#remarkDivList").on("mouseout",".myHref",function (){
                 $(this).children("span").css("color", "#E6E6E6");
-            });
+            })
+
+            // $(".remarkDiv").mouseout(function () {
+            //     $(this).children("div").children("div").hide();
+            // });
+
+            // $(".myHref").mouseover(function () {
+            //     $(this).children("span").css("color", "red");
+            // });
+            //
+            // $(".myHref").mouseout(function () {
+            //     $(this).children("span").css("color", "#E6E6E6");
+            // });
 
             $("#createRemark").click(function () {
                 var noteContent = $.trim($("#remark").val());
@@ -202,7 +211,7 @@
 </div>
 
 <!-- 备注 -->
-<div style="position: relative; top: 30px; left: 40px;">
+<div style="position: relative; top: 30px; left: 40px;" id="remarkDivList">
     <div class="page-header">
         <h4>备注</h4>
     </div>
