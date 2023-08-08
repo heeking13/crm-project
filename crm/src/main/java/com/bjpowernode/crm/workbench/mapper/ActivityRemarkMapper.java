@@ -62,4 +62,7 @@ public interface ActivityRemarkMapper {
 
     //保存创建的市场活动备注
     int insertActivityRemark(ActivityRemark activityRemark);
+
+    //删除市场活动备注
+    int deleteActivityRemarkById(String id);
 }

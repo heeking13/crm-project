@@ -36,6 +36,7 @@
                 cancelAndSaveBtnDefault = true;
             });
 
+            //下面的这些是根据内容动态生成的，不能用.方法，需要使用.on()
             $("#remarkDivList").on("mouseover",".remarkDiv",function (){
                 $(this).children("div").children("div").show();
             })

@@ -31,14 +31,34 @@ public class ActivityRemarkController {
         ReturnObject ro = new ReturnObject();
         try {
             int count = activityRemarkService.saveCreateActivityRemark(activityRemark);
-            if(count>0){
+            if (count > 0) {
                 ro.setCode(Contants.RETURN_RETURN_CODE_SUCCESS);
                 ro.setRetData(activityRemark);
             } else {
                 ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
                 ro.setMessage("系统繁忙，请稍后再试");
             }
-        } catch(Exception e){
+        } catch (Exception e) {
+            e.printStackTrace();
+            ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
+            ro.setMessage("系统繁忙，请稍后再试");
+        }
+        return ro;
+    }
+
+    @ResponseBody
+    @RequestMapping("/workbench/activity/deleteActivityRemarkById.do")
+    public Object deleteActivityRemarkById(String id) {
+        ReturnObject ro = new ReturnObject();
+        try {
+            int count = activityRemarkService.deleteActivityRemarkById(id);
+            if (count > 0) {
+                ro.setCode(Contants.RETURN_RETURN_CODE_SUCCESS);
+            } else {
+                ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
+                ro.setMessage("系统繁忙，请稍后再试");
+            }
+        } catch (Exception e) {
             e.printStackTrace();
             ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
             ro.setMessage("系统繁忙，请稍后再试");
