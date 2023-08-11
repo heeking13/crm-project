@@ -182,6 +182,17 @@
     </insert>
 
     <delete id="deleteActivityRemarkById" parameterType="string">
-        delete from tbl_activity_remark where id = #{id}
+        delete
+        from tbl_activity_remark
+        where id = #{id}
     </delete>
+
+    <update id="updateActivityRemark" parameterType="com.bjpowernode.crm.workbench.domain.ActivityRemark">
+        update tbl_activity_remark
+        set note_content = #{noteContent,jdbcType=VARCHAR},
+            edit_time    = #{editTime,jdbcType=CHAR},
+            edit_by      = #{editBy,jdbcType=VARCHAR},
+            edit_flag    = #{editFlag,jdbcType=CHAR}
+        where id = #{id,jdbcType=CHAR}
+    </update>
 </mapper>

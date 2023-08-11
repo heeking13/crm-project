@@ -65,4 +65,7 @@ public interface ActivityRemarkMapper {
 
     //删除市场活动备注
     int deleteActivityRemarkById(String id);
+
+    //修改市场活动备注
+    int updateActivityRemark(ActivityRemark activityRemark);
 }

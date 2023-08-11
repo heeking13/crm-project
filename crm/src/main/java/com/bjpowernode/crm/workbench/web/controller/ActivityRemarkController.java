@@ -7,6 +7,7 @@ import com.bjpowernode.crm.commons.utils.UUIDUtils;
 import com.bjpowernode.crm.settings.domain.User;
 import com.bjpowernode.crm.workbench.domain.ActivityRemark;
 import com.bjpowernode.crm.workbench.service.ActivityRemarkService;
+import com.sun.corba.se.spi.ior.ObjectKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,6 +63,30 @@ public class ActivityRemarkController {
             e.printStackTrace();
             ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
             ro.setMessage("系统繁忙，请稍后再试");
+        }
+        return ro;
+    }
+
+    @ResponseBody
+    @RequestMapping("/workbench/activity/updateActivityRemark.do")
+    public Object updateActivityRemark(ActivityRemark activityRemark, HttpSession session){
+        User user = (User)session.getAttribute(Contants.SESSION_USER);
+        activityRemark.setEditTime(DateUtils.formatDateTime(new Date()));
+        activityRemark.setEditBy(user.getId());
+        activityRemark.setEditFlag(Contants.REMARK_EDIT_FLAG_YES_EDIT);
+        ReturnObject ro = new ReturnObject();
+        try {
+            int count = activityRemarkService.updateActivityRemark(activityRemark);
+            if(count > 0){
+                ro.setCode(Contants.RETURN_RETURN_CODE_SUCCESS);
+                ro.setRetData(activityRemark);
+            } else {
+                ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
+                ro.setMessage("系统繁忙，请稍后重试～");
+            }
+        } catch (Exception e){
+            ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
+            ro.setMessage("系统繁忙，请稍后重试～");
         }
         return ro;
     }

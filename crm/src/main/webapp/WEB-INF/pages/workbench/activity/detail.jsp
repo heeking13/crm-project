@@ -116,12 +116,20 @@
                     type: 'post',
                     success: function (data){
                         if(data.code == '1'){
-                            $("#div"+id).remove();
+                            $("#div_"+id).remove();
                         } else {
                             alert(data.message);
                         }
                     }
                 })
+            })
+
+            $("#remarkDivList").on("click","a[name='editA']", function (){
+                var id = $(this).attr("remarkId");
+                var noteContent = $("#div_"+id+" h5").text();
+                $("#edit-id").val(id);
+                $("#edit-noteContent").val(noteContent);
+                $("#editRemarkModal").modal("show");
             })
         });
 
@@ -144,10 +152,11 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
+                    <input type="hidden" id="edit_id">
                     <div class="form-group">
-                        <label for="noteContent" class="col-sm-2 control-label">内容</label>
+                        <label for="edit-noteContent" class="col-sm-2 control-label">内容</label>
                         <div class="col-sm-10" style="width: 81%;">
-                            <textarea class="form-control" rows="3" id="noteContent"></textarea>
+                            <textarea class="form-control" rows="3" id="edit-noteContent"></textarea>
                         </div>
                     </div>
                 </form>
