@@ -1,10 +1,7 @@
 package com.bjpowernode.crm.commons.utils;
 
 import com.bjpowernode.crm.workbench.domain.Activity;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.usermodel.*;
 
 import java.util.List;
 
@@ -98,7 +95,7 @@ public class HSSFUtils {
     /**
      * 生成excel模版文件
      */
-    public static HSSFWorkbook hssfTemplate(){
+    public static HSSFWorkbook hssfTemplate() {
         HSSFWorkbook wb = new HSSFWorkbook();
         HSSFSheet sheet = wb.createSheet("市场活动列表");
         HSSFRow row = sheet.createRow(0);

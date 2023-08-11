@@ -82,18 +82,41 @@
                             $("#remark").val("");
                             // $("#remark")[0].reset();
                             var htmlStr = "";
-                            htmlStr += "<div class=\"remarkDiv\" style=\"height: 60px;\">";
+                            htmlStr += "<div id=\"div_"+data.retData.id+"\" class=\"remarkDiv\" style=\"height: 60px;\">";
                             htmlStr += "<img title=\"${sessionScope.sessionUser.name}\" src=\"image/user-thumbnail.png\" style=\"width: 30px; height:30px;\">";
                             htmlStr += "<div style=\"position: relative; top: -40px; left: 40px;\">";
                             htmlStr += "<h5>"+data.retData.noteContent+"</h5>";
                             htmlStr += "<font color=\"gray\">市场活动</font> <font color=\"gray\">-</font> <b>${activity.name}</b> <small style=\"color: gray;\">";
                             htmlStr += " " +data.retData.createTime+" 由 ${sessionScope.sessionUser.name} 创建</small>";
                             htmlStr += "<div style=\"position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display: none;\">";
-                            htmlStr += "<a class=\"myHref\" href=\"javascript:void(0);\" remarkId=\""+data.retData.id+"\"><span class=\"glyphicon glyphicon-edit\" style=\"font-size: 20px; color: #E6E6E6;\"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;<a class=\"myHref\" href=\"javascript:void(0);\" remarkId=\""+data.retData.id+"\"><span class=\"glyphicon glyphicon-remove\" style=\"font-size: 20px; color: #E6E6E6;\"></span></a>";
+                            htmlStr += "<a class=\"myHref editBtn\" name=\"editA\" href=\"javascript:void(0);\" remarkId=\""+data.retData.id+"\"><span class=\"glyphicon glyphicon-edit\" style=\"font-size: 20px; color: #E6E6E6;\"></span></a>&nbsp;&nbsp;&nbsp;&nbsp;<a class=\"myHref deleteBtn\" name=\"deleteA\" href=\"javascript:void(0);\" remarkId=\""+data.retData.id+"\"><span class=\"glyphicon glyphicon-remove\" style=\"font-size: 20px; color: #E6E6E6;\"></span></a>";
                             htmlStr += "</div>";
                             htmlStr += "</div>";
                             htmlStr += "</div>";
                             $("#remarkDiv").before(htmlStr);
+                        } else {
+                            alert(data.message);
+                        }
+                    }
+                })
+            })
+
+            // $("#remarkDivList").on("click",".deleteBtn", function(){
+            //     alert("删除")
+            // })
+
+            $("#remarkDivList").on("click",".deleteBtn",function (){
+                var id = $(this).attr("remarkId"); // this代表当前正在发生的事件
+                $.ajax({
+                    url: 'workbench/activity/deleteActivityRemarkById.do',
+                    data: {
+                        id:id
+                    },
+                    dataType: 'json',
+                    type: 'post',
+                    success: function (data){
+                        if(data.code == '1'){
+                            $("#div"+id).remove();
                         } else {
                             alert(data.message);
                         }
@@ -224,9 +247,9 @@
                 <h5>${remark.noteContent}</h5>
                 <font color="gray">市场活动</font> <font color="gray">-</font> <b>${activity.name}</b> <small style="color: gray;"> ${remark.editFlag=='1'?remark.editTime:remark.createTime} 由${remark.editFlag=='1'?remark.editBy:remark.createBy}${remark.editFlag=='1'?'修改':'创建'}</small>
                 <div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display: none;">
-                    <a class="myHref" name="editA" remarkId="${remark.id}" href="javascript:void(0);"><span class="glyphicon glyphicon-edit" style="font-size: 20px; color: #E6E6E6;"></span></a>
+                    <a class="myHref editBtn" name="editA" remarkId="${remark.id}" href="javascript:void(0);"><span class="glyphicon glyphicon-edit" style="font-size: 20px; color: #E6E6E6;"></span></a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a class="myHref" name="deleteA" remarkId="${remark.id}" href="javascript:void(0);"><span class="glyphicon glyphicon-remove" style="font-size: 20px; color: #E6E6E6;"></span></a>
+                    <a class="myHref deleteBtn" name="deleteA" remarkId="${remark.id}" href="javascript:void(0);"><span class="glyphicon glyphicon-remove" style="font-size: 20px; color: #E6E6E6;"></span></a>
                 </div>
             </div>
         </div>
