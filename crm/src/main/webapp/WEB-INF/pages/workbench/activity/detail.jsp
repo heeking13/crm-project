@@ -131,6 +131,40 @@
                 $("#edit-noteContent").val(noteContent);
                 $("#editRemarkModal").modal("show");
             })
+
+            $("#updateRemarkBtn").click(function (){
+                var id = $("#edit-id").val();
+                var noteContent = $.trim($("#edit-noteContent").val());
+                console.log(id)
+                console.log(noteContent)
+                if( noteContent == "" ){
+                    alert("修改内容不能为空");
+                    return;
+                }
+                $.ajax({
+                    url: 'workbench/activity/updateActivityRemark.do',
+                    data:{
+                        id:id,
+                        noteContent:noteContent
+                    },
+                    dataType:'json',
+                    type:'post',
+                    success: function (data){
+                        if(data.code == "1"){
+                            $("#editRemarkModal").modal("hide");
+                            $("#div_"+id+" h5").text(data.retData.noteContent);
+                            $("#div_"+id+" small").text(" "+ data.retData.editTime + " 由${sessionScope.sessionUser.name}修改");
+                        } else {
+                            alert(data.message);
+                            $("#editRemarkModal").modal("show");
+                        }
+                    }
+                })
+            })
+
+            $("#closeModalBtn").click(function (){
+                $("#editRemarkModal").modal("hide");
+            })
         });
 
     </script>
@@ -152,7 +186,7 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" role="form">
-                    <input type="hidden" id="edit_id">
+                    <input type="hidden" id="edit-id">
                     <div class="form-group">
                         <label for="edit-noteContent" class="col-sm-2 control-label">内容</label>
                         <div class="col-sm-10" style="width: 81%;">
@@ -162,7 +196,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-default" id="closeModalBtn">关闭</button>
                 <button type="button" class="btn btn-primary" id="updateRemarkBtn">更新</button>
             </div>
         </div>
