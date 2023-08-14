@@ -316,7 +316,6 @@
                 #{phone,jdbcType=VARCHAR}, #{website,jdbcType=VARCHAR}, #{mphone,jdbcType=VARCHAR},
                 #{state,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR},
                 #{createTime,jdbcType=CHAR}, #{description,jdbcType=VARCHAR}, #{contactSummary,jdbcType=VARCHAR},
-                #{nextContactTime,jdbcType=CHAR},
-                #{address,jdbcType=VARCHAR})
+                #{nextContactTime,jdbcType=CHAR}, #{address,jdbcType=VARCHAR})
     </insert>
 </mapper>

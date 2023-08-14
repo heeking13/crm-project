@@ -21,7 +21,79 @@
     <script type="text/javascript">
 
         $(function () {
+            $("#createClueMBtn").click(function () {
+                $("#createClueForm")[0].reset();
+                $("#createClueModal").modal("show");
+            })
 
+            //创建线索
+            $("#insertClue").click(function () {
+                var owner = $("#create-owner").val();
+                var company = $.trim($("#create-company").val());
+                var appellation = $("#create-appellation").val();
+                var fullname = $.trim($("#create-fullname").val());
+                var job = $.trim($("#create-job").val());
+                var email = $.trim($("#create-email").val());
+                var phone = $.trim($("#create-phone").val());
+                var website = $.trim($("#create-website").val());
+                var mphone = $.trim($("#create-mphone").val());
+                var state = $("#create-state").val();
+                var source = $("#create-source").val();
+                var description = $.trim($("#create-description").val());
+                var contactSummary = $.trim($("#create-contactSummary").val());
+                var nextContactTime = $.trim($("#create-nextContactTime").val());
+                var address = $.trim($("#create-address").val());
+                if (owner == "" || owner == null) {
+                    alert("所有者不能为空！");
+                }
+                if (company == "" || company == null) {
+                    alert("公司不能为空！");
+                }
+                if (fullname == "" || fullname == null) {
+                    alert("名字不能为空！");
+                }
+                // var regExpEmail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;//非负整数的正则表达式
+                // if (!regExpEmail.test(email)) {
+                //     alert("邮箱格式不正确！");
+                //     return;
+                // }
+                // var regExpPhone = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;//非负整数的正则表达式
+                // if (!regExpPhone.test(mphone)) {
+                //     alert("手机格式不正确！");
+                //     return;
+                // }
+                $.ajax({
+                    url: 'workbench/clue/insertClue.do',
+                    data: {
+                        owner: owner,
+                        company: company,
+                        appellation: appellation,
+                        fullname: fullname,
+                        job: job,
+                        email: email,
+                        phone: phone,
+                        website: website,
+                        mphone: mphone,
+                        state: state,
+                        source: source,
+                        description: description,
+                        contactSummary: contactSummary,
+                        nextContactTime: nextContactTime,
+                        address: address
+                    },
+                    type: 'post',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.code == "1") {
+                            $("#createClueModal").modal("hide");
+                            //刷新列表，显示第一页，保持每页数据不变
+                        } else {
+                            alert(data.message);
+                            $("#createClueModal").modal("show");
+                        }
+                    }
+                })
+            })
 
         });
 
@@ -40,13 +112,13 @@
                 <h4 class="modal-title" id="myModalLabel">创建线索</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form">
+                <form id="createClueForm" class="form-horizontal" role="form">
 
                     <div class="form-group">
-                        <label for="create-clueOwner" class="col-sm-2 control-label">所有者<span
+                        <label for="create-owner" class="col-sm-2 control-label">所有者<span
                                 style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <select class="form-control" id="create-clueOwner">
+                            <select class="form-control" id="create-owner">
                                 <option></option>
                                 <c:forEach items="${userList}" var="user">
                                     <option value="${user.id}">${user.name}</option>
@@ -61,19 +133,19 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="create-call" class="col-sm-2 control-label">称呼</label>
+                        <label for="create-appellation" class="col-sm-2 control-label">称呼</label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <select class="form-control" id="create-call">
+                            <select class="form-control" id="create-appellation">
                                 <option></option>
                                 <c:forEach items="${appellationList}" var="a">
                                     <option value="${a.id}">${a.value}</option>
                                 </c:forEach>
                             </select>
                         </div>
-                        <label for="create-surname" class="col-sm-2 control-label">姓名<span
+                        <label for="create-fullname" class="col-sm-2 control-label">姓名<span
                                 style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <input type="text" class="form-control" id="create-surname">
+                            <input type="text" class="form-control" id="create-fullname">
                         </div>
                     </div>
 
@@ -104,9 +176,9 @@
                         <div class="col-sm-10" style="width: 300px;">
                             <input type="text" class="form-control" id="create-mphone">
                         </div>
-                        <label for="create-clueState" class="col-sm-2 control-label">线索状态</label>
+                        <label for="create-state" class="col-sm-2 control-label">线索状态</label>
                         <div class="col-sm-10" style="width: 300px;">
-                            <select class="form-control" id="create-clueState">
+                            <select class="form-control" id="create-state">
                                 <option></option>
                                 <c:forEach items="${clueStateList}" var="c">
                                     <option value="${c.id}">${c.value}</option>
@@ -119,19 +191,19 @@
                         <label for="create-source" class="col-sm-2 control-label">线索来源</label>
                         <div class="col-sm-10" style="width: 300px;">
                             <select class="form-control" id="create-source">
-                                    <option></option>
-                                    <c:forEach items="${sourceList}" var="s">
-                                        <option value="${s.id}">${s.value}</option>
-                                    </c:forEach>
+                                <option></option>
+                                <c:forEach items="${sourceList}" var="s">
+                                    <option value="${s.id}">${s.value}</option>
+                                </c:forEach>
                             </select>
                         </div>
                     </div>
 
 
                     <div class="form-group">
-                        <label for="create-describe" class="col-sm-2 control-label">线索描述</label>
+                        <label for="create-description" class="col-sm-2 control-label">线索描述</label>
                         <div class="col-sm-10" style="width: 81%;">
-                            <textarea class="form-control" rows="3" id="create-describe"></textarea>
+                            <textarea class="form-control" rows="3" id="create-description"></textarea>
                         </div>
                     </div>
 
@@ -167,7 +239,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+                <button type="button" class="btn btn-primary" id="insertClue">保存</button>
             </div>
         </div>
     </div>
@@ -403,7 +475,7 @@
         <div class="btn-toolbar" role="toolbar"
              style="background-color: #F7F7F7; height: 50px; position: relative;top: 40px;">
             <div class="btn-group" style="position: relative; top: 18%;">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createClueModal"><span
+                <button type="button" class="btn btn-primary" id="createClueMBtn"><span
                         class="glyphicon glyphicon-plus"></span> 创建
                 </button>
                 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editClueModal"><span
