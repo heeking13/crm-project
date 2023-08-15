@@ -6,6 +6,9 @@ import com.bjpowernode.crm.workbench.service.ClueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 @Service("clueService")
 public class ClueServiceImpl implements ClueService {
 
@@ -15,5 +18,15 @@ public class ClueServiceImpl implements ClueService {
     @Override
     public int insertClue(Clue clue) {
         return clueMapper.insertClue(clue);
+    }
+
+    @Override
+    public List<Clue> queryClueByConditionForPage(Map<String, Object> map) {
+        return clueMapper.queryClueByConditionForPage(map);
+    }
+
+    @Override
+    public int queryCountOfClueByConditionForPage(Map<String, Object> map) {
+        return clueMapper.queryCountOfClueByConditionForPage(map);
     }
 }

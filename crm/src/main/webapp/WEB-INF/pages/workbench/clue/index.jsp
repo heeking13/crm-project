@@ -11,16 +11,32 @@
     <link href="jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
     <link href="jquery/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" type="text/css"
           rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="jquery/bs_pagination-master/css/jquery.bs_pagination.min.css">
 
     <script type="text/javascript" src="jquery/jquery-1.11.1-min.js"></script>
     <script type="text/javascript" src="jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript"
+            src="jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
     <script type="text/javascript"
             src="jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script type="text/javascript" src="jquery/bs_pagination-master/js/jquery.bs_pagination.min.js"></script>
+    <script type="text/javascript" src="jquery/bs_pagination-master/localization/en.js"></script>
 
     <script type="text/javascript">
 
         $(function () {
+            //时间日历
+            $(".mydate").datetimepicker({
+                language: 'zh-CN',
+                format: 'yyyy-mm-dd',
+                minView: 'month',
+                initialDate: new Date(),
+                autoclose: true,
+                todayBtn: true,
+                clearBtn: true
+            });
+
+            //点击按钮打开创建模态窗口
             $("#createClueMBtn").click(function () {
                 $("#createClueForm")[0].reset();
                 $("#createClueModal").modal("show");
@@ -52,16 +68,20 @@
                 if (fullname == "" || fullname == null) {
                     alert("名字不能为空！");
                 }
-                // var regExpEmail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;//非负整数的正则表达式
-                // if (!regExpEmail.test(email)) {
-                //     alert("邮箱格式不正确！");
-                //     return;
-                // }
-                // var regExpPhone = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;//非负整数的正则表达式
-                // if (!regExpPhone.test(mphone)) {
-                //     alert("手机格式不正确！");
-                //     return;
-                // }
+                if(email != ""){
+                    var regExpEmail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;//非负整数的正则表达式
+                    if (!regExpEmail.test(email)) {
+                        alert("邮箱格式不正确！");
+                        return;
+                    }
+                }
+                if(mphone != ""){
+                    var regExpPhone = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;//非负整数的正则表达式
+                    if (!regExpPhone.test(mphone)) {
+                        alert("手机格式不正确！");
+                        return;
+                    }
+                }
                 $.ajax({
                     url: 'workbench/clue/insertClue.do',
                     data: {
@@ -96,6 +116,10 @@
             })
 
         });
+
+        function queryClueByConditionForPage(pageNo, pageSize){
+
+        }
 
     </script>
 </head>
@@ -219,7 +243,7 @@
                         <div class="form-group">
                             <label for="create-nextContactTime" class="col-sm-2 control-label">下次联系时间</label>
                             <div class="col-sm-10" style="width: 300px;">
-                                <input type="text" class="form-control" id="create-nextContactTime">
+                                <input type="text" class="form-control mydate" id="create-nextContactTime" readonly="true">
                             </div>
                         </div>
                     </div>
@@ -363,7 +387,7 @@
                         <div class="form-group">
                             <label for="edit-nextContactTime" class="col-sm-2 control-label">下次联系时间</label>
                             <div class="col-sm-10" style="width: 300px;">
-                                <input type="text" class="form-control" id="edit-nextContactTime" value="2017-05-01">
+                                <input type="text" class="form-control mydate" id="edit-nextContactTime" readonly>
                             </div>
                         </div>
                     </div>
@@ -408,7 +432,7 @@
 
                 <div class="form-group">
                     <div class="input-group">
-                        <div class="input-group-addon">名称</div>
+                        <div class="input-group-addon">姓名</div>
                         <input class="form-control" type="text">
                     </div>
                 </div>
@@ -416,13 +440,6 @@
                 <div class="form-group">
                     <div class="input-group">
                         <div class="input-group-addon">公司</div>
-                        <input class="form-control" type="text">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="input-group">
-                        <div class="input-group-addon">公司座机</div>
                         <input class="form-control" type="text">
                     </div>
                 </div>

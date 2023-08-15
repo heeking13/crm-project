@@ -170,7 +170,7 @@ public class ActivityController {
         HSSFWorkbook wb = HSSFUtils.exportActivities(activityList);
         //把生成的文件下载到客户端
         response.setContentType("application/octet-stream;charset=UTF-8");
-        response.setHeader("Content-Disposition", "attachment;filename=activityList.xls");
+        response.setHeader("Content-Disposition", "attachment;filename="+DateUtils.formatDateTime(new Date())+".xls");
         OutputStream out = response.getOutputStream();
         wb.write(out);
         wb.close();
@@ -185,7 +185,7 @@ public class ActivityController {
         List<Activity> activityList = activityService.selectActivitiesByChoose(id);
         HSSFWorkbook wb = HSSFUtils.exportActivities(activityList);
         response.setContentType("application/octet-stream;charset=UTF-8");
-        response.setHeader("Content-Disposition", "attachment;filename=activityList.xls");
+        response.setHeader("Content-Disposition", "attachment;filename="+DateUtils.formatDateTime(new Date())+".xls");
         OutputStream out = response.getOutputStream();
         wb.write(out);
         wb.close();

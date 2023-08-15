@@ -7,6 +7,7 @@
 <head>
     <base href="<%= basePath  %>">
     <meta charset="UTF-8">
+
     <link href="jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
     <link href="jquery/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" type="text/css"
           rel="stylesheet"/>
@@ -20,6 +21,7 @@
             src="jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
     <script type="text/javascript" src="jquery/bs_pagination-master/js/jquery.bs_pagination.min.js"></script>
     <script type="text/javascript" src="jquery/bs_pagination-master/localization/en.js"></script>
+
     <script type="text/javascript">
         $(function () {
             //点击打开创建活动模态窗口
