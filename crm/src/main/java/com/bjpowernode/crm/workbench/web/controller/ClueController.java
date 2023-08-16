@@ -85,8 +85,8 @@ public class ClueController {
         List<Clue> clueList = clueService.queryClueByConditionForPage(map);
         int totalRows = clueService.queryCountOfClueByConditionForPage(map);
         Map<String, Object> returnMap = new HashMap<>();
-        returnMap.put("clueList",clueList);
-        returnMap.put("totalRows",totalRows);
+        returnMap.put("clueList", clueList);
+        returnMap.put("totalRows", totalRows);
         return returnMap;
     }
 }

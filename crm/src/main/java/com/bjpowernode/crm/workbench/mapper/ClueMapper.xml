@@ -354,7 +354,7 @@
         limit #{beginNo},#{pageSize}
     </select>
 
-    <select id="queryCountOfClueByConditionForPage" parameterType="map" resultMap="int">
+    <select id="queryCountOfClueByConditionForPage" parameterType="map" resultType="int">
         select count(*)
         from tbl_clue c
         left join tbl_dic_value dv1 on c.appellation = dv1.id
