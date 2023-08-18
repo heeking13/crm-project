@@ -157,7 +157,7 @@
                     $.each(data.clueList, function (index, obj){
                         htmlStr += "<tr class=\"active\"> ";
                         htmlStr += "    <td><input type=\"checkbox\" value=\""+obj.id+"\"/></td> ";
-                        htmlStr += "    <td><a style=\"text-decoration: none; cursor: pointer;\" onclick=\"window.location.href='detail.html';\">"+obj.fullname+obj.appellation+"</a></td> ";
+                        htmlStr += "    <td><a style=\"text-decoration: none; cursor: pointer;\" onclick=\"window.location.href='workbench/clue/clueDetail.do?"+obj.id+"';\">"+obj.fullname+obj.appellation+"</a></td> ";
                         htmlStr += "    <td>"+obj.company+"</td> ";
                         htmlStr += "    <td>"+obj.phone+"</td> ";
                         htmlStr += "    <td>"+obj.mphone+"</td> ";
@@ -598,7 +598,7 @@
 <%--                <tr>--%>
 <%--                    <td><input type="checkbox"/></td>--%>
 <%--                    <td><a style="text-decoration: none; cursor: pointer;"--%>
-<%--                           onclick="window.location.href='detail.html';">李四先生</a></td>--%>
+<%--                           onclick="window.location.href='detail.jsp';">李四先生</a></td>--%>
 <%--                    <td>动力节点</td>--%>
 <%--                    <td>010-84846003</td>--%>
 <%--                    <td>12345678901</td>--%>
@@ -609,7 +609,7 @@
 <%--                <tr class="active">--%>
 <%--                    <td><input type="checkbox"/></td>--%>
 <%--                    <td><a style="text-decoration: none; cursor: pointer;"--%>
-<%--                           onclick="window.location.href='detail.html';">李四先生</a></td>--%>
+<%--                           onclick="window.location.href='detail.jsp';">李四先生</a></td>--%>
 <%--                    <td>动力节点</td>--%>
 <%--                    <td>010-84846003</td>--%>
 <%--                    <td>12345678901</td>--%>

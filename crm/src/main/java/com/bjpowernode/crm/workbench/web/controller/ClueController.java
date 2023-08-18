@@ -8,7 +8,11 @@ import com.bjpowernode.crm.settings.domain.DicValue;
 import com.bjpowernode.crm.settings.domain.User;
 import com.bjpowernode.crm.settings.service.DicValueService;
 import com.bjpowernode.crm.settings.service.UserService;
+import com.bjpowernode.crm.workbench.domain.Activity;
 import com.bjpowernode.crm.workbench.domain.Clue;
+import com.bjpowernode.crm.workbench.domain.ClueRemark;
+import com.bjpowernode.crm.workbench.service.ActivityService;
+import com.bjpowernode.crm.workbench.service.ClueRemarkService;
 import com.bjpowernode.crm.workbench.service.ClueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +35,12 @@ public class ClueController {
     private DicValueService dicValueService;
     @Autowired
     private ClueService clueService;
+
+    @Autowired
+    private ClueRemarkService clueRemarkService;
+
+    @Autowired
+    private ActivityService activityService;
 
     @RequestMapping("/workbench/clue/index.do")
     public String index(HttpServletRequest request) {
@@ -88,5 +98,16 @@ public class ClueController {
         returnMap.put("clueList", clueList);
         returnMap.put("totalRows", totalRows);
         return returnMap;
+    }
+
+    @RequestMapping("/workbench/clue/clueDetail.do")
+    public String clueDetail(String id, HttpServletRequest request){
+        Clue clue = clueService.queryClueDetail(id);
+        List<ClueRemark> clueRemarkList = clueRemarkService.queryClueRemarkById(id);
+        List<Activity> activityList = activityService.queryActivityForDetailByClueId(id);
+        request.setAttribute("clue",clue);
+        request.setAttribute("clueRemarkList",clueRemarkList);
+        request.setAttribute("activityList",activityList);
+        return "workbench/clue/detail";
     }
 }
