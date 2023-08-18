@@ -66,4 +66,7 @@ public interface ClueMapper {
 
     //查询线索总条数
     int queryCountOfClueByConditionForPage(Map<String, Object> map);
+
+    //查询线索详情
+    Clue selectClueByIdForDetail(String id);
 }

@@ -348,4 +348,12 @@
                  left join tbl_user u3 on a.edit_by = u3.id
         where a.id = #{id}
     </select>
+
+    <select id="selectActivityForDetailByClueId" parameterType="string" resultMap="BaseResultMap">
+        select a.id, a.name, a.start_date, a.end_date, u1.name as owner
+        from tbl_activity a
+        join tbl_user u1 on u1.id = a.owner
+        join tbl_clue_activity_relation car on car.activity_id = a.id
+        where car.clue_id = #{id}
+    </select>
 </mapper>

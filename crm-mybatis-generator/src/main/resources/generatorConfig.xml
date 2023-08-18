@@ -78,11 +78,11 @@
 <!--        </table>-->
 
 
-        <table tableName="tbl_clue" domainObjectName="Clue"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+<!--        <table tableName="tbl_clue" domainObjectName="Clue"-->
+<!--               enableCountByExample="false" enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false">-->
+<!--        </table>-->
 
 <!--        <table tableName="tbl_clue_activity_relation" domainObjectName="ClueActivityRelation"-->
 <!--               enableCountByExample="false" enableUpdateByExample="false"-->
@@ -90,11 +90,11 @@
 <!--               selectByExampleQueryId="false">-->
 <!--        </table>-->
 
-<!--        <table tableName="tbl_clue_remark" domainObjectName="ClueRemark"-->
-<!--               enableCountByExample="false" enableUpdateByExample="false"-->
-<!--               enableDeleteByExample="false" enableSelectByExample="false"-->
-<!--               selectByExampleQueryId="false">-->
-<!--        </table>-->
+        <table tableName="tbl_clue_remark" domainObjectName="ClueRemark"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
 
 
 <!--        <table tableName="tbl_contacts" domainObjectName="Contacts"-->

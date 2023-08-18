@@ -70,6 +70,9 @@
                 if (fullname == "" || fullname == null) {
                     alert("名字不能为空！");
                 }
+                if(appellation == "" || appellation ==null){
+                    alert("称呼不能为空！");
+                }
                 if(email != ""){
                     var regExpEmail = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;//非负整数的正则表达式
                     if (!regExpEmail.test(email)) {
@@ -228,7 +231,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="create-appellation" class="col-sm-2 control-label">称呼</label>
+                        <label for="create-appellation" class="col-sm-2 control-label">称呼<span
+                                style="font-size: 15px; color: red;">*</span></label>
                         <div class="col-sm-10" style="width: 300px;">
                             <select class="form-control" id="create-appellation">
                                 <option></option>
@@ -613,6 +617,7 @@
 <%--                    <td>zhangsan</td>--%>
 <%--                    <td>已联系</td>--%>
 <%--                </tr>--%>
+
                 </tbody>
             </table>
         </div>

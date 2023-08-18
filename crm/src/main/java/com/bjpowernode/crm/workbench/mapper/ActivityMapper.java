@@ -92,4 +92,7 @@ public interface ActivityMapper {
 
     //根据id查询市场活动的信息
     Activity selectActivityForDetailByActivityId(String id);
+
+    //根据clueid查询相关联的市场活动的
+    List<Activity> selectActivityForDetailByClueId(String id);
 }
