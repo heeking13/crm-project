@@ -60,6 +60,7 @@ public interface ActivityMapper {
 
     /**
      * 根据条件分页查询活动市场列表
+     *
      * @param map
      * @return
      */
@@ -67,6 +68,7 @@ public interface ActivityMapper {
 
     /**
      * 根据条件查询市场活动的总条数
+     *
      * @param map
      * @return
      */
@@ -95,4 +97,7 @@ public interface ActivityMapper {
 
     //根据clueid查询相关联的市场活动的
     List<Activity> selectActivityForDetailByClueId(String id);
+
+    //根据名字，模糊查询活动展示关联,并且把已经关联过的市场活动排除
+    List<Activity> selectActivityForDetailByNameClueId(Map<String, Object> map);
 }

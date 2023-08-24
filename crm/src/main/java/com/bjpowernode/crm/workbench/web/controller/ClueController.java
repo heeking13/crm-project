@@ -14,6 +14,7 @@ import com.bjpowernode.crm.workbench.domain.ClueRemark;
 import com.bjpowernode.crm.workbench.service.ActivityService;
 import com.bjpowernode.crm.workbench.service.ClueRemarkService;
 import com.bjpowernode.crm.workbench.service.ClueService;
+import com.sun.corba.se.spi.ior.ObjectKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -109,5 +110,15 @@ public class ClueController {
         request.setAttribute("clueRemarkList",clueRemarkList);
         request.setAttribute("activityList",activityList);
         return "workbench/clue/detail";
+    }
+
+    @ResponseBody
+    @RequestMapping("/workbench/clue/queryActivityForDetailByNameClueId.do")
+    public Object queryActivityForDetailByNameClueId(String activityName, String clueId){
+        Map<String, Object> map = new HashMap<>();
+        map.put("activityName",activityName);
+        map.put("clueId",clueId);
+        List<Activity> activityList = activityService.queryActivityForDetailByNameClueId(map);
+        return activityList;
     }
 }

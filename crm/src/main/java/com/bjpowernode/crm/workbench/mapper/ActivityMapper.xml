@@ -350,10 +350,19 @@
     </select>
 
     <select id="selectActivityForDetailByClueId" parameterType="string" resultMap="BaseResultMap">
-        select a.id, a.name, a.start_date, a.end_date, u1.name as owner
+        select a.id, a.name, a.start_date, a.end_date, u.name as owner
         from tbl_activity a
-        join tbl_user u1 on u1.id = a.owner
-        join tbl_clue_activity_relation car on car.activity_id = a.id
+                 join tbl_user u on a.owner = u.id
+                 join tbl_clue_activity_relation car on a.id = car.activity_id
         where car.clue_id = #{id}
+    </select>
+
+    <select id="selectActivityForDetailByNameClueId" parameterType="map" resultMap="BaseResultMap">
+        select a.id, a.name, a.start_date, a.end_date, u.name as owner
+        from tbl_activity a
+                 join tbl_user u on a.owner = u.id
+        where a.name like '%' #{activityName} '%' and a.id not in (
+        select activity_id from tbl_clue_activity_relation where clue_id = #{clueId}
+            )
     </select>
 </mapper>

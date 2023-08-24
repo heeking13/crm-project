@@ -51,8 +51,50 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		$(".myHref").mouseout(function(){
 			$(this).children("span").css("color","#E6E6E6");
 		});
+
+		$("#bundModalBtn").click(function (){
+			var clueId = "${clue.id}";
+			searchActivity("",clueId);
+			$("#bundModal").modal("show");
+		})
+
+		$("#searchActivityTxt").keyup(function (){
+			var activityName = this.value;
+			var clueId = "${clue.id}";
+			searchActivity(activityName,clueId);
+		})
+
+		$("#closeBtn").click(function (){
+			$("#bundModal").modal("hide");
+			document.getElementById("searchForm").reset();
+		})
+
 	});
-	
+
+	function searchActivity(activityName,clueId ){
+		$.ajax({
+			url: 'workbench/clue/queryActivityForDetailByNameClueId.do',
+			data: {
+				activityName:activityName,
+				clueId:clueId
+			},
+			type: 'post',
+			dataType: 'json',
+			success: function (data){
+				var htmlStr = "";
+				$.each(data, function (index, obj){
+					htmlStr += "    <tr> ";
+					htmlStr += "	<td><input type=\"checkbox\" value=\""+obj.id+"\"/></td> ";
+					htmlStr += "	<td>"+obj.name+"</td> ";
+					htmlStr += "	<td>"+obj.startDate+"</td> ";
+					htmlStr += "	<td>"+obj.endDate+"</td> ";
+					htmlStr += "	<td>"+obj.owner+"</td> ";
+					htmlStr += "    </tr> ";
+				})
+				$("#tBody").html(htmlStr);
+			}
+		})
+	}
 </script>
 
 </head>
@@ -70,9 +112,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				</div>
 				<div class="modal-body">
 					<div class="btn-group" style="position: relative; top: 18%; left: 8px;">
-						<form class="form-inline" role="form">
+						<form class="form-inline" role="form" id="searchForm">
 						  <div class="form-group has-feedback">
-						    <input type="text" class="form-control" style="width: 300px;" placeholder="请输入市场活动名称，支持模糊查询">
+						    <input type="text" id="searchActivityTxt" class="form-control" style="width: 300px;" placeholder="请输入市场活动名称，支持模糊查询">
 						    <span class="glyphicon glyphicon-search form-control-feedback"></span>
 						  </div>
 						</form>
@@ -88,27 +130,20 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 								<td></td>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td><input type="checkbox"/></td>
-								<td>发传单</td>
-								<td>2020-10-10</td>
-								<td>2020-10-20</td>
-								<td>zhangsan</td>
-							</tr>
-							<tr>
-								<td><input type="checkbox"/></td>
-								<td>发传单</td>
-								<td>2020-10-10</td>
-								<td>2020-10-20</td>
-								<td>zhangsan</td>
-							</tr>
+						<tbody id="tBody">
+<%--							<tr>--%>
+<%--								<td><input type="checkbox"/></td>--%>
+<%--								<td>发传单</td>--%>
+<%--								<td>2020-10-10</td>--%>
+<%--								<td>2020-10-20</td>--%>
+<%--								<td>zhangsan</td>--%>
+<%--							</tr>--%>
 						</tbody>
 					</table>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal">关联</button>
+					<button type="button" class="btn btn-default" id="closeBtn">取消</button>
+					<button type="button" class="btn btn-primary" >关联</button>
 				</div>
 			</div>
 		</div>
@@ -313,7 +348,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			</div>
 			
 			<div>
-				<a href="javascript:void(0);" data-toggle="modal" data-target="#bundModal" style="text-decoration: none;"><span class="glyphicon glyphicon-plus"></span>关联市场活动</a>
+				<a href="javascript:void(0);" id="bundModalBtn" style="text-decoration: none;"><span class="glyphicon glyphicon-plus"></span>关联市场活动</a>
 			</div>
 		</div>
 	</div>
