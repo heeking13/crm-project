@@ -71,7 +71,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 
 		$("#saveBoundBtn").click(function (){
 			var checkIds = $("#tBody input[type='checkbox']:checked");
-			if(checkIds == 0){
+			if(checkIds.size() == 0){
 				alert("请选择至少一个活动");
 				return;
 			}
