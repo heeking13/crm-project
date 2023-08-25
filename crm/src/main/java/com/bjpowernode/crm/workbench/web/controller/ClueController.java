@@ -10,11 +10,12 @@ import com.bjpowernode.crm.settings.service.DicValueService;
 import com.bjpowernode.crm.settings.service.UserService;
 import com.bjpowernode.crm.workbench.domain.Activity;
 import com.bjpowernode.crm.workbench.domain.Clue;
+import com.bjpowernode.crm.workbench.domain.ClueActivityRelation;
 import com.bjpowernode.crm.workbench.domain.ClueRemark;
 import com.bjpowernode.crm.workbench.service.ActivityService;
+import com.bjpowernode.crm.workbench.service.ClueActivityRelationService;
 import com.bjpowernode.crm.workbench.service.ClueRemarkService;
 import com.bjpowernode.crm.workbench.service.ClueService;
-import com.sun.corba.se.spi.ior.ObjectKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class ClueController {
@@ -42,6 +40,9 @@ public class ClueController {
 
     @Autowired
     private ActivityService activityService;
+
+    @Autowired
+    private ClueActivityRelationService clueActivityRelationService;
 
     @RequestMapping("/workbench/clue/index.do")
     public String index(HttpServletRequest request) {
@@ -120,5 +121,41 @@ public class ClueController {
         map.put("clueId",clueId);
         List<Activity> activityList = activityService.queryActivityForDetailByNameClueId(map);
         return activityList;
+    }
+
+    @ResponseBody
+    @RequestMapping("/workbench/clue/saveBoundActivityClue.do")
+    public Object saveBoundActivityClue(String[] activityId, String clueId){
+//        List<ClueActivityRelation> list = new ArrayList<>();
+//        for(int i=0; i <activityId.length; i++){
+//            ClueActivityRelation clueActivityRelation = new ClueActivityRelation();
+//            clueActivityRelation.setActivityId(activityId[i]);
+//            clueActivityRelation.setClueId(clueId);
+//            list.add(clueActivityRelation);
+//        }
+        List<ClueActivityRelation> list = new ArrayList<>();
+        ClueActivityRelation clueActivityRelation = null;
+        for(String ai:activityId){
+            clueActivityRelation = new ClueActivityRelation();
+            clueActivityRelation.setActivityId(ai);
+            clueActivityRelation.setClueId(clueId);
+            clueActivityRelation.setId(UUIDUtils.getUUID());
+            list.add(clueActivityRelation);
+        }
+        ReturnObject ro = new ReturnObject();
+        try {
+            int count = clueActivityRelationService.saveCreateClueActivityRelationByList(list);
+            if(count>0){
+                ro.setCode(Contants.RETURN_RETURN_CODE_SUCCESS);
+                List<Activity> activityList = activityService.queryActivityForDetailByIds(activityId);
+                ro.setRetData(activityList);
+            } else {
+                ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
+                ro.setMessage("系统繁忙，请稍后重试~");
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return ro;
     }
 }

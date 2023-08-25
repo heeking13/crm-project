@@ -29,4 +29,6 @@ public interface ActivityService {
     List<Activity> queryActivityForDetailByClueId(String id);
 
     List<Activity> queryActivityForDetailByNameClueId(Map<String, Object> map);
+
+    List<Activity> queryActivityForDetailByIds(String[] ids);
 }

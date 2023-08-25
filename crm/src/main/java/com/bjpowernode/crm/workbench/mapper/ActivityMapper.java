@@ -100,4 +100,7 @@ public interface ActivityMapper {
 
     //根据名字，模糊查询活动展示关联,并且把已经关联过的市场活动排除
     List<Activity> selectActivityForDetailByNameClueId(Map<String, Object> map);
+
+    //根据id查询活动信息显示
+    List<Activity> selectActivityForDetailByIds(String[] ids);
 }
