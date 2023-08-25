@@ -69,6 +69,45 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			document.getElementById("searchForm").reset();
 		})
 
+		$("#saveBoundBtn").click(function (){
+			var checkIds = $("#tBody input[type='checkbox']:checked");
+			if(checkIds == 0){
+				alert("请选择至少一个活动");
+				return;
+			}
+			var ids = "";
+			$.each(checkIds, function (){
+				ids += "activityId="+this.value+"&";
+			})
+			ids += "clueId=${clue.id}";
+
+			$.ajax({
+				url: 'workbench/clue/saveBoundActivityClue.do',
+				data: ids,
+				type: 'post',
+				dataType: 'json',
+				success: function (data){
+					if(data.code = "1"){
+						$("#bundModal").modal("hide");
+						var htmlStr = "";
+						$.each(data.retData, function (index, obj){
+							htmlStr += "<tr>";
+							htmlStr += "	<td>"+obj.name+"</td>";
+							htmlStr += "   	<td>"+obj.startDate+"</td>";
+							htmlStr += "   	<td>"+obj.endDate+"</td>";
+							htmlStr += "   	<td>"+obj.owner+"</td>";
+							htmlStr += "   	<td><a href=\"javascript:void(0);\" activityId=\""+obj.id+"\" style=\"text-decoration: none;\"><span class=\"glyphicon glyphicon-remove\"></span>解除关联</a></td>";
+							htmlStr += "   </tr>";
+						})
+						$("#relationTbody").append(htmlStr);
+					} else {
+						alert(data.message);
+						$("#bundModal").modal("show");
+					}
+				}
+			})
+		})
+
 	});
 
 	function searchActivity(activityName,clueId ){
@@ -143,7 +182,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" id="closeBtn">取消</button>
-					<button type="button" class="btn btn-primary" >关联</button>
+					<button type="button" class="btn btn-primary" id="saveBoundBtn">关联</button>
 				</div>
 			</div>
 		</div>
@@ -333,7 +372,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 							<td></td>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="relationTbody">
 						<c:forEach items="${activityList}" var="activity">
 							<tr>
 								<td>${activity.name}</td>
