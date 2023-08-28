@@ -55,4 +55,7 @@ public interface ClueActivityRelationMapper {
 
     //添加线索，活动关系
     int insertClueActivityRelationByList(List<ClueActivityRelation> list);
+
+    //根据id(市场，线索)删除联系
+    int deleteClueActivityRelationById(ClueActivityRelation car);
 }

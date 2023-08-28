@@ -103,29 +103,29 @@ public class ClueController {
     }
 
     @RequestMapping("/workbench/clue/clueDetail.do")
-    public String clueDetail(String id, HttpServletRequest request){
+    public String clueDetail(String id, HttpServletRequest request) {
         Clue clue = clueService.queryClueDetail(id);
         List<ClueRemark> clueRemarkList = clueRemarkService.queryClueRemarkById(id);
         List<Activity> activityList = activityService.queryActivityForDetailByClueId(id);
-        request.setAttribute("clue",clue);
-        request.setAttribute("clueRemarkList",clueRemarkList);
-        request.setAttribute("activityList",activityList);
+        request.setAttribute("clue", clue);
+        request.setAttribute("clueRemarkList", clueRemarkList);
+        request.setAttribute("activityList", activityList);
         return "workbench/clue/detail";
     }
 
     @ResponseBody
     @RequestMapping("/workbench/clue/queryActivityForDetailByNameClueId.do")
-    public Object queryActivityForDetailByNameClueId(String activityName, String clueId){
+    public Object queryActivityForDetailByNameClueId(String activityName, String clueId) {
         Map<String, Object> map = new HashMap<>();
-        map.put("activityName",activityName);
-        map.put("clueId",clueId);
+        map.put("activityName", activityName);
+        map.put("clueId", clueId);
         List<Activity> activityList = activityService.queryActivityForDetailByNameClueId(map);
         return activityList;
     }
 
     @ResponseBody
     @RequestMapping("/workbench/clue/saveBoundActivityClue.do")
-    public Object saveBoundActivityClue(String[] activityId, String clueId){
+    public Object saveBoundActivityClue(String[] activityId, String clueId) {
 //        List<ClueActivityRelation> list = new ArrayList<>();
 //        for(int i=0; i <activityId.length; i++){
 //            ClueActivityRelation clueActivityRelation = new ClueActivityRelation();
@@ -135,7 +135,7 @@ public class ClueController {
 //        }
         List<ClueActivityRelation> list = new ArrayList<>();
         ClueActivityRelation clueActivityRelation = null;
-        for(String ai:activityId){
+        for (String ai : activityId) {
             clueActivityRelation = new ClueActivityRelation();
             clueActivityRelation.setActivityId(ai);
             clueActivityRelation.setClueId(clueId);
@@ -145,7 +145,7 @@ public class ClueController {
         ReturnObject ro = new ReturnObject();
         try {
             int count = clueActivityRelationService.saveCreateClueActivityRelationByList(list);
-            if(count>0){
+            if (count > 0) {
                 ro.setCode(Contants.RETURN_RETURN_CODE_SUCCESS);
                 List<Activity> activityList = activityService.queryActivityForDetailByIds(activityId);
                 ro.setRetData(activityList);
@@ -153,8 +153,28 @@ public class ClueController {
                 ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
                 ro.setMessage("系统繁忙，请稍后重试~");
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
+        }
+        return ro;
+    }
+
+    @ResponseBody
+    @RequestMapping("/workbench/clue/deleteClueActivityRelation.do")
+    public Object deleteClueActivityRelation(ClueActivityRelation car) {
+        ReturnObject ro = new ReturnObject();
+        try {
+            int count = clueActivityRelationService.deleteClueActivityRelation(car);
+            if (count > 0) {
+                ro.setCode(Contants.RETURN_RETURN_CODE_SUCCESS);
+            } else {
+                ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
+                ro.setMessage("系统繁忙，请稍后重试~");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ro.setCode(Contants.RETURN_RETURN_CODE_FAIL);
+            ro.setMessage("系统繁忙，请稍后重试~");
         }
         return ro;
     }

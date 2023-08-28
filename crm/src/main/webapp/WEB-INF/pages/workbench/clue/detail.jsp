@@ -121,6 +121,28 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			})
 		})
 
+		$("#relationTbody").on("click","a", function (){
+			var activityId = $(this).attr("activityId");
+			var clueId = "${clue.id}";
+			if(window.confirm("确定删除吗？")){
+				$.ajax({
+					url:'workbench/clue/deleteClueActivityRelation.do',
+					data:{
+						activityId:activityId,
+						clueId:clueId
+					},
+					type:'post',
+					dataType:'json',
+					success: function (data){
+						if(data.code == "1"){
+							$("#tr_"+activityId).remove();
+						} else {
+							alert(data.message);
+						}
+					}
+				})
+			}
+		})
 	});
 
 	function searchActivity(activityName,clueId ){
@@ -135,7 +157,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			success: function (data){
 				var htmlStr = "";
 				$.each(data, function (index, obj){
-					htmlStr += "    <tr> ";
+					htmlStr += "    <tr id=\"tr_"+obj.id+"\"> ";
 					htmlStr += "	<td><input type=\"checkbox\" value=\""+obj.id+"\"/></td> ";
 					htmlStr += "	<td>"+obj.name+"</td> ";
 					htmlStr += "	<td>"+obj.startDate+"</td> ";
@@ -387,7 +409,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					</thead>
 					<tbody id="relationTbody">
 						<c:forEach items="${activityList}" var="activity">
-							<tr>
+							<tr id="tr_${activity.id}">
 								<td>${activity.name}</td>
 								<td>${activity.startDate}</td>
 								<td>${activity.endDate}</td>
