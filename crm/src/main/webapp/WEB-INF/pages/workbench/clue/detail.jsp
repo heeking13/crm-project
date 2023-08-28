@@ -70,12 +70,12 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		})
 
 		$("#checkAll").click(function (){
-			$("#tbody input[type='checkbox']").prop("checked",this.checked);
+			$("#tBody input[type='checkbox']").prop("checked",this.checked);
 		})
 
 		//如果有一个checkbox没有选中，那么全选按钮就不能显示
-		$("#tbody").on("click", "input[type='checkbox']", function () {
-			if ($("#tbody input[type='checkbox']").size() == $("#tbody input[type='checkbox']:checked").size()) {
+		$("#tBody").on("click", "input[type='checkbox']", function () {
+			if ($("#tBody input[type='checkbox']").size() == $("#tBody input[type='checkbox']:checked").size()) {
 				$("#checkAll").prop("checked", true);
 			} else {
 				$("#checkAll").prop("checked", false);
