@@ -178,4 +178,11 @@ public class ClueController {
         }
         return ro;
     }
+
+    @RequestMapping("/workbench/clue/toConvert.do")
+    public String toConvert(String id, HttpServletRequest request){
+        Clue clue = clueService.queryClueDetail(id);
+        request.setAttribute("clue",clue);
+        return "workbench/clue/convert";
+    }
 }
