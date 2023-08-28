@@ -69,6 +69,19 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			document.getElementById("searchForm").reset();
 		})
 
+		$("#checkAll").click(function (){
+			$("#tbody input[type='checkbox']").prop("checked",this.checked);
+		})
+
+		//如果有一个checkbox没有选中，那么全选按钮就不能显示
+		$("#tbody").on("click", "input[type='checkbox']", function () {
+			if ($("#tbody input[type='checkbox']").size() == $("#tbody input[type='checkbox']:checked").size()) {
+				$("#checkAll").prop("checked", true);
+			} else {
+				$("#checkAll").prop("checked", false);
+			}
+		})
+
 		$("#saveBoundBtn").click(function (){
 			var checkIds = $("#tBody input[type='checkbox']:checked");
 			if(checkIds.size() == 0){
@@ -161,7 +174,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					<table id="activityTable" class="table table-hover" style="width: 900px; position: relative;top: 10px;">
 						<thead>
 							<tr style="color: #B3B3B3;">
-								<td><input type="checkbox"/></td>
+								<td><input type="checkbox" id="checkAll"/></td>
 								<td>名称</td>
 								<td>开始日期</td>
 								<td>结束日期</td>
