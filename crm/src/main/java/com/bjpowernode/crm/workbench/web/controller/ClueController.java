@@ -180,9 +180,11 @@ public class ClueController {
     }
 
     @RequestMapping("/workbench/clue/toConvert.do")
-    public String toConvert(String id, HttpServletRequest request){
+    public String toConvert(String id, HttpServletRequest request) {
         Clue clue = clueService.queryClueDetail(id);
-        request.setAttribute("clue",clue);
+        List<DicValue> stageList = dicValueService.queryDicValueByTypeCode("stage");
+        request.setAttribute("clue", clue);
+        request.setAttribute("stageList", stageList);
         return "workbench/clue/convert";
     }
 }

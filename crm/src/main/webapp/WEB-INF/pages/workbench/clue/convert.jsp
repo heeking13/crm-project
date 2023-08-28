@@ -106,7 +106,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		  </div>
 		  <div class="form-group" style="width: 400px;position: relative; left: 20px;">
 		    <label for="tradeName">交易名称</label>
-		    <input type="text" class="form-control" id="tradeName" value="动力节点-">
+		    <input type="text" class="form-control" id="tradeName" value="${clue.company}-">
 		  </div>
 		  <div class="form-group" style="width: 400px;position: relative; left: 20px;">
 		    <label for="expectedClosingDate">预计成交日期</label>
@@ -116,15 +116,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		    <label for="stage">阶段</label>
 		    <select id="stage"  class="form-control">
 		    	<option></option>
-		    	<option>资质审查</option>
-		    	<option>需求分析</option>
-		    	<option>价值建议</option>
-		    	<option>确定决策者</option>
-		    	<option>提案/报价</option>
-		    	<option>谈判/复审</option>
-		    	<option>成交</option>
-		    	<option>丢失的线索</option>
-		    	<option>因竞争丢失关闭</option>
+		    	<c:forEach items="${stageList}" var="obj">
+					<option value="${obj.id}">${obj.value}</option>
+				</c:forEach>
 		    </select>
 		  </div>
 		  <div class="form-group" style="width: 400px;position: relative; left: 20px;">
@@ -137,7 +131,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	
 	<div id="owner" style="position: relative; left: 40px; height: 35px; top: 50px;">
 		记录的所有者：<br>
-		<b>zhangsan</b>
+		<b>${clue.owner}</b>
 	</div>
 	<div id="operation" style="position: relative; left: 40px; height: 35px; top: 100px;">
 		<input class="btn btn-primary" type="button" value="转换">
