@@ -103,4 +103,7 @@ public interface ActivityMapper {
 
     //根据id查询活动信息显示
     List<Activity> selectActivityForDetailByIds(String[] ids);
+
+    //根据名称和线索id模糊查询线索
+    List<Activity> selectActivityForConvertByNameClueId(Map<String, Object> map);
 }

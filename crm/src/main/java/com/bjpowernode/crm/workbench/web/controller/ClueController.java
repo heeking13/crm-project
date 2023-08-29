@@ -187,4 +187,14 @@ public class ClueController {
         request.setAttribute("stageList", stageList);
         return "workbench/clue/convert";
     }
+
+    @ResponseBody
+    @RequestMapping("/workbench/clue/queryActivityForConvertByNameClueId.do")
+    public Object queryActivityForConvertByNameClueId(String activityName, String clueId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("activityName", activityName);
+        map.put("clueId", clueId);
+        List<Activity> activityList = activityService.queryActivityForConvertByNameClueId(map);
+        return activityList;
+    }
 }
