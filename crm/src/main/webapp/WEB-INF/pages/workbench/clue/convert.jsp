@@ -38,6 +38,14 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			var clueId = "${clue.id}";
 			searchActivity(activityName,clueId);
 		})
+
+		$("#tBody").on("click","input[type='radio']", function (){
+			var id = this.value;
+			var activityName = $(this).attr("activityName");
+			$("#activityId").val(id);
+			$("#activityName").val(activityName);
+			$("#searchActivityModal").modal("hide");
+		})
 	});
 
 	function searchActivity(activityName, clueId){
@@ -84,6 +92,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					<div class="btn-group" style="position: relative; top: 18%; left: 8px;">
 						<form class="form-inline" role="form">
 						  <div class="form-group has-feedback">
+
 						    <input type="text" class="form-control" style="width: 300px;" id="searchActivityTxt" placeholder="请输入市场活动名称，支持模糊查询">
 						    <span class="glyphicon glyphicon-search form-control-feedback"></span>
 						  </div>
@@ -153,8 +162,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		    </select>
 		  </div>
 		  <div class="form-group" style="width: 400px;position: relative; left: 20px;">
-		    <label for="activity">市场活动源&nbsp;&nbsp;<a href="javascript:void(0);" id="searchActivityModalBtn" style="text-decoration: none;"><span class="glyphicon glyphicon-search"></span></a></label>
-		    <input type="text" class="form-control" id="activity" placeholder="点击上面搜索" readonly>
+			  <input type="hidden" id="activityId">
+		    <label for="activityName">市场活动源&nbsp;&nbsp;<a href="javascript:void(0);" id="searchActivityModalBtn" style="text-decoration: none;"><span class="glyphicon glyphicon-search"></span></a></label>
+		    <input type="text" class="form-control" id="activityName" placeholder="点击上面搜索" readonly>
 		  </div>
 		</form>
 		
