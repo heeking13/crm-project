@@ -46,6 +46,35 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			$("#activityName").val(activityName);
 			$("#searchActivityModal").modal("hide");
 		})
+
+		$("#saveConvertClueBtn").click(function (){
+			var clueId = "${clue.id}";
+			var money = $.trim($("#amountOfMoney").val());
+			var name = $.trim($("#tradeName").val());
+			var expectedDate = $.trim($("#expectedClosingDate").val());
+			var stage = $("#stage").val();
+			var isCreateTran = $("#isCreateTransaction").prop("checked");
+			$.ajax({
+				url: 'workbench/clue/saveClueConvert.do',
+				data:{
+					clueId:clueId,
+					money:money,
+					name:name,
+					expectedDate:expectedDate,
+					stage:stage,
+					isCreateTran:isCreateTran
+				},
+				type: 'post',
+				dataType:'json',
+				success: function (data){
+					if(data.code == "1"){
+						window.location.href = "workbench/clue/index.do";
+					} else {
+						alert(data.message);
+					}
+				}
+			})
+		})
 	});
 
 	function searchActivity(activityName, clueId){
@@ -175,7 +204,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		<b>${clue.owner}</b>
 	</div>
 	<div id="operation" style="position: relative; left: 40px; height: 35px; top: 100px;">
-		<input class="btn btn-primary" type="button" value="转换">
+		<input class="btn btn-primary" type="button" id="saveConvertClueBtn" value="转换">
 		&nbsp;&nbsp;&nbsp;&nbsp;
 		<input class="btn btn-default" type="button" value="取消">
 	</div>
