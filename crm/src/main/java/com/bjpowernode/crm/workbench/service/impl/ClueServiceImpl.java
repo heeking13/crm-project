@@ -7,6 +7,7 @@ import com.bjpowernode.crm.settings.domain.User;
 import com.bjpowernode.crm.workbench.domain.Clue;
 import com.bjpowernode.crm.workbench.domain.Contacts;
 import com.bjpowernode.crm.workbench.domain.Customer;
+import com.bjpowernode.crm.workbench.domain.Tran;
 import com.bjpowernode.crm.workbench.mapper.ClueMapper;
 import com.bjpowernode.crm.workbench.mapper.ContactsMapper;
 import com.bjpowernode.crm.workbench.mapper.CustomerMapper;
@@ -77,6 +78,12 @@ public class ClueServiceImpl implements ClueService {
         co.setSource(clue.getSource());
         contactsMapper.insertContacts(co);
 
+        String isCreateTran = (String) map.get("isCreateTran");
+        if("true".equals(isCreateTran)){
+            Tran tran = new Tran();
+            String activityId = (String) map.get("activityId");
+            tran.setActivityId(activityId);
+        }
     }
 
     public Customer setCustomer(User user, Clue clue) {
