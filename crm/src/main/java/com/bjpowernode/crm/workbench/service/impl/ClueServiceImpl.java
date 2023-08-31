@@ -1,11 +1,18 @@
 package com.bjpowernode.crm.workbench.service.impl;
 
+import com.bjpowernode.crm.commons.contants.Contants;
+import com.bjpowernode.crm.commons.utils.DateUtils;
+import com.bjpowernode.crm.commons.utils.UUIDUtils;
+import com.bjpowernode.crm.settings.domain.User;
 import com.bjpowernode.crm.workbench.domain.Clue;
+import com.bjpowernode.crm.workbench.domain.Customer;
 import com.bjpowernode.crm.workbench.mapper.ClueMapper;
+import com.bjpowernode.crm.workbench.mapper.CustomerMapper;
 import com.bjpowernode.crm.workbench.service.ClueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +21,9 @@ public class ClueServiceImpl implements ClueService {
 
     @Autowired
     private ClueMapper clueMapper;
+
+    @Autowired
+    private CustomerMapper customerMapper;
 
     @Override
     public int insertClue(Clue clue) {
@@ -33,5 +43,30 @@ public class ClueServiceImpl implements ClueService {
     @Override
     public Clue queryClueDetail(String id) {
         return clueMapper.selectClueByIdForDetail(id);
+    }
+
+    @Override
+    public void saveConvert(Map<String, Object> map) {
+        String clueId = (String) map.get("clueId");
+        User user = (User) map.get(Contants.SESSION_USER);
+        Clue clue = clueMapper.selectClueById(clueId);
+        Customer customer = setCustomer(user, clue);
+        customerMapper.insertCustomer(customer);
+    }
+
+    public Customer setCustomer(User user, Clue clue){
+        Customer c = new Customer();
+        c.setAddress(clue.getAddress());
+        c.setContactSummary(clue.getContactSummary());
+        c.setCreateBy(user.getId());
+        c.setCreateTime(DateUtils.formatDateTime(new Date()));
+        c.setDescription(clue.getDescription());
+        c.setId(UUIDUtils.getUUID());
+        c.setName(clue.getCompany());
+        c.setNextContactTime(clue.getNextContactTime());
+        c.setOwner(user.getId());
+        c.setPhone(clue.getPhone());
+        c.setWebsite(clue.getWebsite());
+        return c;
     }
 }
