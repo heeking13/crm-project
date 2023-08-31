@@ -272,4 +272,17 @@
       address = #{address,jdbcType=VARCHAR}
     where id = #{id,jdbcType=CHAR}
   </update>
+
+  <insert id="insertContacts" parameterType="com.bjpowernode.crm.workbench.domain.Contacts">
+    insert into tbl_contacts (id, owner, source,
+                              customer_id, fullname, appellation,
+                              email, mphone, job,
+                              create_by, create_time, description, contact_summary,
+                              next_contact_time, address)
+    values (#{id,jdbcType=CHAR}, #{owner,jdbcType=CHAR}, #{source,jdbcType=VARCHAR},
+            #{customerId,jdbcType=CHAR}, #{fullname,jdbcType=VARCHAR}, #{appellation,jdbcType=VARCHAR},
+            #{email,jdbcType=VARCHAR}, #{mphone,jdbcType=VARCHAR}, #{job,jdbcType=VARCHAR},
+            #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=CHAR}, #{description,jdbcType=VARCHAR}, #{contactSummary,jdbcType=VARCHAR},
+            #{nextContactTime,jdbcType=CHAR}, #{address,jdbcType=VARCHAR})
+  </insert>
 </mapper>
