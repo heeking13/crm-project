@@ -79,10 +79,10 @@ public class ClueServiceImpl implements ClueService {
         contactsMapper.insertContacts(co);
 
         String isCreateTran = (String) map.get("isCreateTran");
-        if("true".equals(isCreateTran)){
+        if ("true".equals(isCreateTran)) {
             Tran tran = new Tran();
-            String activityId = (String) map.get("activityId");
-            tran.setActivityId(activityId);
+            tran.setActivityId((String) map.get("activityId"));
+            tran.setContactsId(co.getId());
         }
     }
 
