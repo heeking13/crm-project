@@ -72,4 +72,6 @@ public interface ClueMapper {
 
     //查询线索详情，转换
     Clue selectClueById(String id);
+
+    int deleteClueById(String id);
 }

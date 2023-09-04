@@ -8,10 +8,7 @@ import com.bjpowernode.crm.workbench.domain.Clue;
 import com.bjpowernode.crm.workbench.domain.Contacts;
 import com.bjpowernode.crm.workbench.domain.Customer;
 import com.bjpowernode.crm.workbench.domain.Tran;
-import com.bjpowernode.crm.workbench.mapper.ClueMapper;
-import com.bjpowernode.crm.workbench.mapper.ContactsMapper;
-import com.bjpowernode.crm.workbench.mapper.CustomerMapper;
-import com.bjpowernode.crm.workbench.mapper.TranMapper;
+import com.bjpowernode.crm.workbench.mapper.*;
 import com.bjpowernode.crm.workbench.service.ClueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +31,9 @@ public class ClueServiceImpl implements ClueService {
 
     @Autowired
     private TranMapper tranMapper;
+
+    @Autowired
+    private ClueActivityRelationMapper clueActivityRelationMapper;
 
     @Override
     public int insertClue(Clue clue) {
@@ -98,6 +98,9 @@ public class ClueServiceImpl implements ClueService {
             tran.setStage((String) map.get("stage"));
             tranMapper.insertTran(tran);
         }
+
+        clueActivityRelationMapper.deleteClueActivityRelationByClueId(clueId);
+        clueMapper.deleteClueById(clueId);
     }
 
     public Customer setCustomer(User user, Clue clue) {

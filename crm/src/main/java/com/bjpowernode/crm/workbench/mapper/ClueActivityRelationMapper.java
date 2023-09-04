@@ -58,4 +58,6 @@ public interface ClueActivityRelationMapper {
 
     //根据id(市场，线索)删除联系
     int deleteClueActivityRelationById(ClueActivityRelation car);
+
+    int deleteClueActivityRelationByClueId(String clueId);
 }
