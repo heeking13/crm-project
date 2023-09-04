@@ -98,7 +98,6 @@ public class ClueServiceImpl implements ClueService {
             tran.setStage((String) map.get("stage"));
             tranMapper.insertTran(tran);
         }
-
         clueActivityRelationMapper.deleteClueActivityRelationByClueId(clueId);
         clueMapper.deleteClueById(clueId);
     }
