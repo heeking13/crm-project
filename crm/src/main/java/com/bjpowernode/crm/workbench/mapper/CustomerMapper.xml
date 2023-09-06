@@ -234,4 +234,8 @@
                 #{phone,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=CHAR}, #{contactSummary,jdbcType=VARCHAR},
                 #{nextContactTime,jdbcType=CHAR}, #{description,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR})
     </insert>
+
+    <select id="queryCustomerNameByName" parameterType="string" resultType="string">
+        select name from tbl_customer where name like '%' #{name} '%'
+    </select>
 </mapper>

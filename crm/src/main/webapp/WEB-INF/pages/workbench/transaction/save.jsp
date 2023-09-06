@@ -15,6 +15,46 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 <script type="text/javascript" src="jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
+	<script type="text/javascript" src="jquery/bs_typeahead/bootstrap3-typeahead.min.js"></script>
+	<script type="text/javascript">
+		$(function (){
+			$("#create-transactionStage").change(function (){
+				var stageValue = $(this).find("option:selected").text();
+				//var stageValue = $("#create-transactionStage option:selected").text()
+				if(stageValue == ""){
+					$("#create-possibility").val("");
+					return;
+				}
+				$.ajax({
+					url:'workbench/transaction/getPossibilityByStage.do',
+					data:{
+						stageValue:stageValue
+					},
+					type:'post',
+					dataType: 'json',
+					success: function (data){
+						$("#create-possibility").val(data);
+					}
+				})
+			})
+
+			$("#create-accountName").typeahead({
+				source: function (jquery, process){
+					$.ajax({
+						url: 'workbench/transaction/queryCustomerName.do',
+						data: {
+							name:jquery
+						},
+						dataType: 'json',
+						type: 'post',
+						success: function (data){
+							process(data);
+						}
+					})
+				}
+			})
+		})
+	</script>
 
 </head>
 <body>
@@ -183,7 +223,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			</div>
 			<label for="create-possibility" class="col-sm-2 control-label">可能性</label>
 			<div class="col-sm-10" style="width: 300px;">
-				<input type="text" class="form-control" id="create-possibility">
+				<input type="text" class="form-control" id="create-possibility" readonly>
 			</div>
 		</div>
 		
