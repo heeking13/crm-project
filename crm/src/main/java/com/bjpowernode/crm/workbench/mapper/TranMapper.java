@@ -52,4 +52,6 @@ public interface TranMapper {
     int updateByPrimaryKey(Tran record);
 
     int insertTran(Tran tran);
+
+    Tran selectTranForDetailById(String id);
 }

@@ -79,7 +79,6 @@ public class TranController {
     public Object saveCreateTran(@RequestParam Map<String,Object> map, HttpSession session){
         //封装参数
         map.put(Contants.SESSION_USER,session.getAttribute(Contants.SESSION_USER));
-
         ReturnObject returnObject=new ReturnObject();
         try {
             //调用service层方法，保存创建的交易
@@ -90,7 +89,6 @@ public class TranController {
             returnObject.setCode(Contants.RETURN_RETURN_CODE_FAIL);
             returnObject.setMessage("系统忙，请稍后重试....");
         }
-
         return returnObject;
     }
 }
