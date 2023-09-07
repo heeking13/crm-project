@@ -25,6 +25,7 @@
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="contact_summary" property="contactSummary" jdbcType="VARCHAR" />
     <result column="next_contact_time" property="nextContactTime" jdbcType="CHAR" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     <!--
