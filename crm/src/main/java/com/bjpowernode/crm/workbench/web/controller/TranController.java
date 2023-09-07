@@ -6,7 +6,12 @@ import com.bjpowernode.crm.settings.domain.DicValue;
 import com.bjpowernode.crm.settings.domain.User;
 import com.bjpowernode.crm.settings.service.DicValueService;
 import com.bjpowernode.crm.settings.service.UserService;
+import com.bjpowernode.crm.workbench.domain.Tran;
+import com.bjpowernode.crm.workbench.domain.TranHistory;
+import com.bjpowernode.crm.workbench.domain.TranRemark;
 import com.bjpowernode.crm.workbench.service.CustomerService;
+import com.bjpowernode.crm.workbench.service.TranHistoryService;
+import com.bjpowernode.crm.workbench.service.TranRemarkService;
 import com.bjpowernode.crm.workbench.service.TranService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +38,12 @@ public class TranController {
 
     @Autowired
     private TranService tranService;
+
+    @Autowired
+    private TranHistoryService tranHistoryService;
+
+    @Autowired
+    private TranRemarkService tranRemarkService;
 
     @RequestMapping("/workbench/transaction/index.do")
     public String index(HttpServletRequest request) {
@@ -90,5 +101,19 @@ public class TranController {
             returnObject.setMessage("系统忙，请稍后重试....");
         }
         return returnObject;
+    }
+
+    @RequestMapping("/workbench/transaction/detailTran.do")
+    public String detailTran(String id, HttpServletRequest request){
+        Tran tran = tranService.queryTranForDetailById(id);
+        List<TranRemark> tranRemarkList = tranRemarkService.queryTranRemarkForDetailByTranId(id);
+        List<TranHistory> tranHistoryList = tranHistoryService.queryTranHistoryForDetailByTranId(id);
+        ResourceBundle bundle=ResourceBundle.getBundle("possibility");
+        String possibility=bundle.getString(tran.getStage());
+        tran.setPossibility(possibility);
+        request.setAttribute("tran",tran);
+        request.setAttribute("tranRemarkList",tranRemarkList);
+        request.setAttribute("tranHistoryList",tranHistoryList);
+        return "workbench/transaction/detail";
     }
 }
