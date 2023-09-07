@@ -73,4 +73,9 @@ public class TranServiceImpl implements TranService {
         th.setTranId(tran.getId());
         tranHistoryMapper.insertTranHistory(th);
     }
+
+    @Override
+    public Tran queryTranForDetailById(String id) {
+        return tranMapper.selectTranForDetailById(id);
+    }
 }
